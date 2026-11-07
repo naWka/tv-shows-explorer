@@ -1,0 +1,46 @@
+:root {
+  --c-bg: #0b0c10;
+  --c-bg-glow: #1a1d2a;
+  --c-surface: #14161d;
+  --c-surface-2: #1c1f29;
+  --c-line: #2a2e3b;
+  --c-line-strong: #3a3f50;
+  --c-text: #f4efe4;
+  --c-muted: #8d92a3;
+  --c-on-air: #ff4f30;
+  --c-amber: #ffc04a;
+  --c-amber-ink: #1a1305;
+  --c-amber-glow: rgba(255, 192, 74, 0.32);
+  --c-scanline: rgba(255, 255, 255, 0.035);
+  --c-highlight: rgba(255, 255, 255, 0.06);
+  --c-shade: rgba(0, 0, 0, 0.5);
+  --c-shade-deep: rgba(0, 0, 0, 0.85);
+  --c-ink-tint: rgba(0, 0, 0, 0.14);
+
+  --bar-white: #c4c4c4;
+  --bar-yellow: #c4c400;
+  --bar-cyan: #00c4c4;
+  --bar-green: #00c400;
+  --bar-magenta: #c400c4;
+  --bar-red: #c40000;
+  --bar-blue: #0000c4;
+
+  --font-display: 'Bricolage Grotesque', 'Geologica', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-screen: 22px;
+  --radius-card: 18px;
+  --radius-pill: 999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
