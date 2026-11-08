@@ -3,7 +3,8 @@ import type { ShowSearchResult } from '@app-types/showSearch'
 import { toErrorMessage } from './toErrorMessage'
 import { toShows } from './toShow'
 
-const TYPING_PAUSE_MS = 400
+// Столько ждём после последней буквы. Хватает, чтобы рукой стереть букву и вернуть её без лишнего запроса.
+const TYPING_PAUSE_MS = 700
 
 const IDLE: ShowSearchResult = { status: 'idle', shows: [], error: null }
 const LOADING: ShowSearchResult = { status: 'loading', shows: [], error: null }
