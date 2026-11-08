@@ -61,12 +61,26 @@
   text-transform: uppercase;
 }
 
+/* badge — короткая метка на плашке: моноширинная, крупнее и жирнее подписи */
+.text[data-variant='badge'] {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
 .text[data-tone='muted'] {
   color: var(--c-muted);
 }
 
 .text[data-tone='accent'] {
   color: var(--c-amber);
+}
+
+/* ink — тёмный текст на янтарной плашке */
+.text[data-tone='ink'] {
+  color: var(--c-amber-ink);
 }
 
 /* lines — обрезать до N строк и держать высоту N строк, чтобы соседние блоки стояли ровно */

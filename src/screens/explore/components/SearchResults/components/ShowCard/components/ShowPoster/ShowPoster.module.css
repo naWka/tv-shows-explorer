@@ -28,23 +28,32 @@
   will-change: transform;
 }
 
+/* Плашки одной высоты, содержимое по центру по вертикали. */
 .number,
 .rating {
   position: absolute;
   top: 10px;
   z-index: 1;
-  padding: var(--space-1) var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 26px;
+  padding: 0 var(--space-2);
   border-radius: 6px;
-  background: var(--c-shade);
-  backdrop-filter: blur(8px);
 }
 
 .number {
   left: 10px;
+  background: var(--c-shade);
+  backdrop-filter: blur(8px);
 }
 
+/* Рейтинг — сплошная янтарная плашка: читается на светлом и тёмном постере. */
 .rating {
   right: 10px;
+  padding-left: 6px;
+  background: var(--c-amber);
+  box-shadow: 0 2px 10px var(--c-shade), 0 0 18px var(--c-amber-glow);
 }
 
 @keyframes channel-flick {
@@ -54,7 +63,8 @@
 
 @media (max-width: 720px) {
   .screen { flex: 0 0 34%; align-self: flex-start; }
-  .number, .rating { top: 6px; padding: 2px 5px; }
-  .number { left: 6px; }
+  .number, .rating { top: 6px; height: 22px; padding: 0 5px; }
+  /* Постер узкий: номер уходит вниз, чтобы не слипаться с рейтингом. */
+  .number { top: auto; bottom: 6px; left: 6px; }
   .rating { right: 6px; }
 }

@@ -7,6 +7,11 @@
   stroke-linejoin: round;
 }
 
+.icon[data-size='small'] {
+  width: 14px;
+  height: 14px;
+}
+
 .icon[data-size='medium'] {
   width: 20px;
   height: 20px;
@@ -17,6 +22,11 @@
   height: 26px;
 }
 
+/* Тон задаёт цвет, а контур и заливка берут его через currentColor. */
 .icon[data-tone='accent'] {
-  stroke: var(--c-amber);
+  color: var(--c-amber);
+}
+
+.icon[data-tone='ink'] {
+  color: var(--c-amber-ink);
 }
