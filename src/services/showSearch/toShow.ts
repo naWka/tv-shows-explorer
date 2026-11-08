@@ -18,11 +18,17 @@ function toShow(raw: TvmazeShow): Show {
     name: raw.name || ru.showSearch.untitled,
     url: raw.url,
     genres: Array.isArray(raw.genres) ? raw.genres : [],
-    imageUrl: raw.image?.original ?? raw.image?.medium ?? null,
+    poster: toPoster(raw.image),
     summary: htmlToText(raw.summary ?? ''),
     rating: raw.rating?.average ?? null,
     year: raw.premiered ? Number(raw.premiered.slice(0, 4)) : null,
   }
+}
+
+function toPoster(image: TvmazeShow['image']): Show['poster'] {
+  const small = image?.medium || image?.original
+  const large = image?.original || image?.medium
+  return small && large ? { small, large } : null
 }
 
 function htmlToText(html: string): string {

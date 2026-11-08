@@ -37,7 +37,7 @@ export function ShowCard({ show, number, meta }: ShowCardProps) {
         </div>
       </div>
 
-      <ShowPoster imageUrl={show.imageUrl} number={number} rating={show.rating} />
+      <ShowPoster poster={show.poster} number={number} rating={show.rating} />
     </article>
   )
 }
