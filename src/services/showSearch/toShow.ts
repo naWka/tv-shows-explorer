@@ -1,5 +1,6 @@
-import type { TvmazeSearchItem, TvmazeShow } from '../../api/tvmaze/types'
-import type { Show } from '../../types/show'
+import type { TvmazeSearchItem, TvmazeShow } from '@api/tvmaze/types'
+import { ru } from '@locales/ru'
+import type { Show } from '@app-types/show'
 
 export function toShows(items: TvmazeSearchItem[]): Show[] {
   const seen = new Set<number>()
@@ -14,7 +15,7 @@ export function toShows(items: TvmazeSearchItem[]): Show[] {
 function toShow(raw: TvmazeShow): Show {
   return {
     id: raw.id,
-    name: raw.name || 'Без названия',
+    name: raw.name || ru.showSearch.untitled,
     url: raw.url,
     genres: Array.isArray(raw.genres) ? raw.genres : [],
     imageUrl: raw.image?.original ?? raw.image?.medium ?? null,

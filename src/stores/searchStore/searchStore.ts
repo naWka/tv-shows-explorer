@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
-import type { Show } from '../../types/show'
-import type { SearchStatus, ShowSearchResult } from '../../types/showSearch'
+import type { Show } from '@app-types/show'
+import type { SearchStatus, ShowSearchResult } from '@app-types/showSearch'
 
 class SearchStore {
   query = ''

@@ -16,6 +16,17 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Aliases: one per shared layer of src/ */
+    "paths": {
+      "@ui-kit/*": ["./src/ui-kit/*"],
+      "@components/*": ["./src/components/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@services/*": ["./src/services/*"],
+      "@api/*": ["./src/api/*"],
+      "@app-types/*": ["./src/types/*"],
+      "@locales/*": ["./src/locales/*"]
+    },
+
     /* Linting */
     "noUnusedLocals": true,
     "noUnusedParameters": true,

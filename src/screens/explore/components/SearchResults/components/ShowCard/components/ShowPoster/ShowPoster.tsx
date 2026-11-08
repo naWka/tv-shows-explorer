@@ -1,5 +1,6 @@
-import { Image } from '../../../../../../ui-kit/Image/Image'
-import { Text } from '../../../../../../ui-kit/Text/Text'
+import { ru } from '@locales/ru'
+import { Image } from '@ui-kit/Image/Image'
+import { Text } from '@ui-kit/Text/Text'
 import s from './ShowPoster.module.css'
 
 type ShowPosterProps = {
@@ -12,7 +13,7 @@ export function ShowPoster({ imageUrl, number, rating }: ShowPosterProps) {
   return (
     <div className={s.screen}>
       <div className={s.picture}>
-        <Image src={imageUrl} alt="" fallback="Нет постера" />
+        <Image src={imageUrl} alt="" fallback={ru.showPoster.noPoster} />
       </div>
       <div className={s.number}>
         <Text as="span" variant="caption">

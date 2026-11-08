@@ -1,4 +1,5 @@
-import { Chip } from '../../../../ui-kit/Chip/Chip'
+import { ru } from '@locales/ru'
+import { Chip } from '@ui-kit/Chip/Chip'
 import s from './GenreFilter.module.css'
 
 type GenreOption = {
@@ -17,8 +18,8 @@ type GenreFilterProps = {
 
 export function GenreFilter({ genres, allCount, isAllActive, onSelect, onReset }: GenreFilterProps) {
   return (
-    <div className={s.chips} role="group" aria-label="Фильтр по жанру">
-      <Chip label="Все" count={allCount} active={isAllActive} onClick={onReset} />
+    <div className={s.chips} role="group" aria-label={ru.genreFilter.label}>
+      <Chip label={ru.genreFilter.all} count={allCount} active={isAllActive} onClick={onReset} />
       {genres.map((genre) => (
         <Chip
           key={genre.name}

@@ -1,5 +1,5 @@
-import { fetchShowSearch } from '../../api/tvmaze/client'
-import type { ShowSearchResult } from '../../types/showSearch'
+import { fetchShowSearch } from '@api/tvmaze/client'
+import type { ShowSearchResult } from '@app-types/showSearch'
 import { toErrorMessage } from './toErrorMessage'
 import { toShows } from './toShow'
 

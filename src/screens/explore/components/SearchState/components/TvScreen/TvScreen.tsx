@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import { Button } from '../../../../ui-kit/Button/Button'
-import { Text } from '../../../../ui-kit/Text/Text'
+import { Button } from '@ui-kit/Button/Button'
+import { Text } from '@ui-kit/Text/Text'
 import s from './TvScreen.module.css'
 
 type TvScreenProps = {

@@ -1,11 +1,12 @@
-import { TvmazeError } from '../../api/tvmaze/client'
-
-const UNREADABLE = 'TVmaze прислал непонятный ответ. Попробуйте ещё раз.'
+import { TvmazeError } from '@api/tvmaze/client'
+import { ru } from '@locales/ru'
 
 export function toErrorMessage(error: unknown): string {
-  if (!(error instanceof TvmazeError) || error.kind === 'parse') return UNREADABLE
-  if (error.kind === 'network') return 'Нет связи с TVmaze. Проверьте интернет и попробуйте ещё раз.'
-  if (error.status === 429) return 'TVmaze просит передышку: слишком много запросов. Подождите минуту.'
-  if (error.status !== null && error.status >= 500) return 'TVmaze сейчас не отвечает. Попробуйте чуть позже.'
-  return 'TVmaze не смог выполнить поиск. Попробуйте изменить запрос.'
+  const t = ru.showSearch.errors
+
+  if (!(error instanceof TvmazeError) || error.kind === 'parse') return t.unreadable
+  if (error.kind === 'network') return t.network
+  if (error.status === 429) return t.tooManyRequests
+  if (error.status !== null && error.status >= 500) return t.serverDown
+  return t.failed
 }

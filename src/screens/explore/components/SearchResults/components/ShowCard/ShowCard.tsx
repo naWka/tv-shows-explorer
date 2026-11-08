@@ -1,6 +1,7 @@
-import type { Show } from '../../../../types/show'
-import { Link } from '../../../../ui-kit/Link/Link'
-import { Text } from '../../../../ui-kit/Text/Text'
+import { ru } from '@locales/ru'
+import type { Show } from '@app-types/show'
+import { Link } from '@ui-kit/Link/Link'
+import { Text } from '@ui-kit/Text/Text'
 import { ShowPoster } from './components/ShowPoster/ShowPoster'
 import s from './ShowCard.module.css'
 
@@ -23,7 +24,7 @@ export function ShowCard({ show, number, meta }: ShowCardProps) {
           {meta}
         </Text>
         <Text variant="body" tone="muted" lines={3}>
-          {show.summary || 'Описания пока нет.'}
+          {show.summary || ru.showCard.noSummary}
         </Text>
       </div>
 

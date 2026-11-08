@@ -16,47 +16,13 @@
   gap: var(--space-6);
 }
 
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-3) var(--space-5);
-  margin-bottom: var(--space-4);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-5);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  animation: power-on 0.5s var(--ease-out) both;
-}
-
-.cell {
-  min-height: 0;
-}
-
-@keyframes power-on {
-  0% { transform: scale(1, 0.01); filter: brightness(3); }
-  60% { transform: scale(1, 1.02); filter: brightness(1.4); }
-  100% { transform: none; filter: none; }
-}
-
-/* Широкий экран: сетка занимает всю высоту окна, но не меньше 400px; если места мало, страница прокручивается. */
+/* Широкий экран: main тянется на всю высоту окна, чтобы сетка результатов могла занять это место. */
 @media (min-width: 861px) {
-  .main, .results { display: flex; flex-direction: column; flex: 1; }
-  .grid { --poster-basis: 0; flex: 1; min-height: 400px; grid-template-rows: minmax(0, 1fr); }
+  .main { display: flex; flex-direction: column; flex: 1; }
 }
 
 @media (max-width: 860px) {
   .header { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
-}
-
-@media (max-width: 720px) {
-  .grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
 }
 
 @media (max-width: 560px) {

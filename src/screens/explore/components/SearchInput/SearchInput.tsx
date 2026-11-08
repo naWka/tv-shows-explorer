@@ -1,7 +1,7 @@
 import type { Ref } from 'react'
-import { Icon } from '../../../../ui-kit/Icon/Icon'
-import { Input } from '../../../../ui-kit/Input/Input'
-import { Text } from '../../../../ui-kit/Text/Text'
+import { Icon } from '@ui-kit/Icon/Icon'
+import { Input } from '@ui-kit/Input/Input'
+import { Text } from '@ui-kit/Text/Text'
 import s from './SearchInput.module.css'
 
 type SearchInputProps = {

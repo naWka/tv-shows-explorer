@@ -1,6 +1,7 @@
-import { Button } from '../../../../ui-kit/Button/Button'
-import { Icon } from '../../../../ui-kit/Icon/Icon'
-import { Text } from '../../../../ui-kit/Text/Text'
+import { ru } from '@locales/ru'
+import { Button } from '@ui-kit/Button/Button'
+import { Icon } from '@ui-kit/Icon/Icon'
+import { Text } from '@ui-kit/Text/Text'
 import s from './Pagination.module.css'
 
 type PageOption = {
@@ -20,8 +21,8 @@ type PaginationProps = {
 
 export function Pagination({ pages, canPrev, canNext, onPrev, onNext, onSelect }: PaginationProps) {
   return (
-    <nav className={s.remote} aria-label="Страницы">
-      <Button variant="round" label="Предыдущая страница" disabled={!canPrev} onClick={onPrev}>
+    <nav className={s.remote} aria-label={ru.pagination.label}>
+      <Button variant="round" label={ru.pagination.prev} disabled={!canPrev} onClick={onPrev}>
         <Icon name="prev" size="medium" />
       </Button>
 
@@ -43,7 +44,7 @@ export function Pagination({ pages, canPrev, canNext, onPrev, onNext, onSelect }
         </Button>
       ))}
 
-      <Button variant="round" label="Следующая страница" disabled={!canNext} onClick={onNext}>
+      <Button variant="round" label={ru.pagination.next} disabled={!canNext} onClick={onNext}>
         <Icon name="next" size="medium" />
       </Button>
     </nav>
