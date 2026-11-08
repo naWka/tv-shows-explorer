@@ -18,12 +18,24 @@ export function createShowSearch(onChange: (result: ShowSearchResult) => void): 
   let timer: ReturnType<typeof setTimeout> | undefined
   let controller: AbortController | undefined
   let lastQuery = ''
-  // Запрос, чей результат сейчас на экране или ещё в пути: повторять его незачем.
-  let current: string | null = null
+  // Запрос, чья выдача сейчас на экране. Вернулись к нему, пока новый запрос ждал паузы, — прежняя выдача и есть ответ.
+  let shown: string | null = null
+  // Запрос, который ждёт паузы во вводе или уже в пути: повторять его незачем.
+  let pending: string | null = null
+  let inFlight = false
 
   const cancel = () => {
     clearTimeout(timer)
     controller?.abort()
+    pending = null
+    inFlight = false
+  }
+
+  const finish = (query: string | null, result: ShowSearchResult) => {
+    pending = null
+    inFlight = false
+    shown = query
+    onChange(result)
   }
 
   const run = async (query: string) => {
@@ -31,34 +43,41 @@ export function createShowSearch(onChange: (result: ShowSearchResult) => void): 
     controller = new AbortController()
     const { signal } = controller
     lastQuery = query
-    current = query
+    pending = query
+    inFlight = true
     onChange(LOADING)
 
     try {
       const items = await fetchShowSearch(query, signal)
       if (signal.aborted) return
-      onChange({ status: 'success', shows: toShows(items), error: null })
+      finish(query, { status: 'success', shows: toShows(items), error: null })
     } catch (error) {
       if (signal.aborted) return
-      current = null
-      onChange({ status: 'error', shows: [], error: toErrorMessage(error) })
+      finish(null, { status: 'error', shows: [], error: toErrorMessage(error) })
     }
   }
 
   return {
     search(query) {
       const trimmed = query.trim()
-      clearTimeout(timer)
-      if (trimmed && trimmed === current) return
-
-      cancel()
-      current = null
+      if (trimmed === pending) return
 
       if (!trimmed) {
-        onChange(IDLE)
+        cancel()
+        finish(null, IDLE)
         return
       }
 
+      // Стёрли букву и вернули её до конца паузы: запрос ещё не ушёл, на экране выдача по этому же запросу —
+      // отменяем ожидание и оставляем всё как есть, вместе с жанром и страницей. Если запрос уже в пути, экран
+      // приглушён, и вернуть его можно только новой выдачей.
+      if (trimmed === shown && !inFlight) {
+        cancel()
+        return
+      }
+
+      cancel()
+      pending = trimmed
       timer = setTimeout(() => void run(trimmed), TYPING_PAUSE_MS)
     },
     retry() {
