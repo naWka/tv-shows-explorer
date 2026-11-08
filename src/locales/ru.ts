@@ -34,6 +34,8 @@ export const ru = {
   showCard: {
     noSummary: 'Описания пока нет.',
     unknownYear: 'Год неизвестен',
+    source: 'TVmaze',
+    sourceSpoken: '(откроется на TVmaze в новой вкладке)',
   },
   showPoster: {
     noPoster: 'Нет постера',

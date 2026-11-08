@@ -1,5 +1,6 @@
 import { ru } from '@locales/ru'
 import type { Show } from '@app-types/show'
+import { Icon } from '@ui-kit/Icon/Icon'
 import { Link } from '@ui-kit/Link/Link'
 import { Text } from '@ui-kit/Text/Text'
 import { ShowPoster } from './components/ShowPoster/ShowPoster'
@@ -16,7 +17,7 @@ export function ShowCard({ show, number, meta }: ShowCardProps) {
     <article className={s.card}>
       <div className={s.body}>
         <Text as="h2" variant="title" lines={2}>
-          <Link variant="stretched" href={show.url} target="_blank">
+          <Link variant="stretched" href={show.url} target="_blank" spoken={ru.showCard.sourceSpoken}>
             {show.name}
           </Link>
         </Text>
@@ -26,6 +27,14 @@ export function ShowCard({ show, number, meta }: ShowCardProps) {
         <Text variant="body" tone="muted" lines={3}>
           {show.summary || ru.showCard.noSummary}
         </Text>
+        <div className={s.source} aria-hidden="true">
+          <Text as="span" variant="caption">
+            {ru.showCard.source}
+          </Text>
+          <div className={s.arrow}>
+            <Icon name="external" size="small" />
+          </div>
+        </div>
       </div>
 
       <ShowPoster imageUrl={show.imageUrl} number={number} rating={show.rating} />

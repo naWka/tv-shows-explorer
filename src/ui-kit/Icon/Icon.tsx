@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import s from './Icon.module.css'
 
-type IconName = 'search' | 'prev' | 'next' | 'star'
+type IconName = 'search' | 'prev' | 'next' | 'star' | 'external'
 
 type IconProps = {
   name: IconName
@@ -18,6 +18,7 @@ const shapes: Record<IconName, ReactNode> = {
   ),
   prev: <path d="M14.5 6 8.5 12l6 6" />,
   next: <path d="M9.5 6l6 6-6 6" />,
+  external: <path d="M7 17 17 7M8.5 7H17v8.5" />,
   star: (
     <path
       fill="currentColor"

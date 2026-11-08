@@ -12,7 +12,7 @@
   transition: border-color 0.25s var(--ease-out);
 }
 
-/* Наведение не сдвигает карточку: экран постера «настраивается», рамка загорается. --hover читает постер. */
+/* Наведение не сдвигает карточку: экран постера «настраивается», рамка загорается. --hover читают постер и подпись «TVmaze ↗». */
 .card:hover {
   --hover: 1;
   border-color: var(--c-line-strong);
@@ -55,6 +55,25 @@
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-4) var(--space-2) var(--space-2);
+}
+
+/* Подпись «TVmaze ↗» видна всегда, а не только при наведении: на телефоне наведения нет, а знать, что карточка уводит на другой сайт, нужно до клика.
+   Наведение и фокус её зажигают. Скринридер её не читает: то же самое он слышит в названии ссылки. */
+.source {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: auto;
+  padding-top: var(--space-1);
+  color: color-mix(in srgb, var(--c-amber) calc(var(--hover, 0) * 100%), var(--c-muted));
+  transition: color 0.25s var(--ease-out);
+}
+
+/* Стрелка чуть сдвигается туда, куда указывает. */
+.arrow {
+  display: flex;
+  transform: translate(calc(var(--hover, 0) * 2px), calc(var(--hover, 0) * -2px));
+  transition: transform 0.3s var(--ease-out-expo);
 }
 
 @media (max-width: 720px) {
