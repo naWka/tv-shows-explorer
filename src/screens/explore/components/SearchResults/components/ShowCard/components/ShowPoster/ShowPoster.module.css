@@ -20,11 +20,12 @@
   transition: opacity 0.35s var(--ease-out);
 }
 
-/* При наведении на карточку постер чуть приближается. */
+/* При наведении на карточку постер чуть приближается. will-change держит картинку на своём слое: без него браузер перерисовывает её в начале и в конце приближения, и она вздрагивает. */
 .picture {
   height: 100%;
   transform: scale(calc(1 + var(--hover, 0) * 0.04));
   transition: transform 0.6s var(--ease-out);
+  will-change: transform;
 }
 
 .number,

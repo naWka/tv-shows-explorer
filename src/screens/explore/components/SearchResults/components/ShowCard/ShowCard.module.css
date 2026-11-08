@@ -10,17 +10,41 @@
   background: linear-gradient(180deg, var(--c-surface-2), var(--c-surface));
   transition:
     transform 0.35s var(--ease-out),
-    border-color 0.35s var(--ease-out),
-    box-shadow 0.35s var(--ease-out);
+    border-color 0.35s var(--ease-out);
 }
 
 .card:hover {
   --hover: 1;
   transform: translateY(-6px);
   border-color: var(--c-line-strong);
+}
+
+/* Поднятая карточка уходит из-под курсора у нижнего края. Полоса под ней держит наведение, иначе карточка прыгает вверх-вниз. */
+.card:hover::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 8px;
+}
+
+/* Тень нарисована заранее и только проявляется: прозрачность браузер анимирует без перерисовки, box-shadow — с перерисовкой на каждом кадре. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
   box-shadow:
     0 30px 60px -30px var(--c-shade-deep),
     0 0 0 1px var(--c-amber-glow);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
+}
+
+.card:hover::after {
+  opacity: 1;
 }
 
 /* Ссылка с названием накрывает всю карточку, поэтому рамку фокуса рисует карточка. */
