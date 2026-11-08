@@ -1,3 +1,12 @@
+/* Пока ищется уточнённый запрос, прежняя выдача приглушена: видно, что она сейчас сменится. */
+.results {
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.results[aria-busy='true'] {
+  opacity: 0.45;
+}
+
 .toolbar {
   display: flex;
   margin-bottom: var(--space-4);

@@ -20,6 +20,7 @@ export const ru = {
     label: 'Результаты поиска',
     spoken: (found: number, page: number, pageCount: number) =>
       `Найдено шоу: ${found}. Страница ${page} из ${pageCount}`,
+    loadingSpoken: 'Ищем шоу…',
   },
   genreFilter: {
     label: 'Фильтр по жанру',

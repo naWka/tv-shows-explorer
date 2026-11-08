@@ -9,6 +9,8 @@ class SearchStore {
   status: SearchStatus = 'idle'
   shows: Show[] = []
   error: string | null = null
+  /** Номер выдачи: растёт с каждой пришедшей выдачей, по нему карточки новой выдачи включаются заново. */
+  resultId = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -16,8 +18,6 @@ class SearchStore {
 
   setQuery(query: string) {
     this.query = query
-    this.genre = null
-    this.page = 1
   }
 
   setGenre(genre: string | null) {
@@ -29,10 +29,16 @@ class SearchStore {
     this.page = page
   }
 
+  // Пока идёт новый запрос, прежняя выдача остаётся на экране. Жанр и страница сбрасываются, когда выдача сменилась.
   setSearchResult(result: ShowSearchResult) {
     this.status = result.status
-    this.shows = result.shows
     this.error = result.error
+    if (result.status === 'loading') return
+
+    this.shows = result.shows
+    this.genre = null
+    this.page = 1
+    if (result.status === 'success') this.resultId += 1
   }
 }
 

@@ -14,7 +14,7 @@ export const SearchResults = observer(function SearchResults() {
     <>
       <LiveStatus text={p.announcement} />
       {p.hasResults && (
-        <section className={s.results} aria-label={ru.searchResults.label}>
+        <section className={s.results} aria-label={ru.searchResults.label} aria-busy={p.isStale}>
           <div className={s.toolbar}>
             <GenreFilter
               genres={p.genres}
@@ -27,7 +27,7 @@ export const SearchResults = observer(function SearchResults() {
 
           <ul className={s.grid}>
             {p.items.map((item) => (
-              <li key={item.slot} className={s.cell}>
+              <li key={item.key} className={s.cell}>
                 <ShowCard show={item.show} number={item.number} meta={item.meta} />
               </li>
             ))}

@@ -31,7 +31,10 @@ function describeScreen({ status, query, found, error }: ScreenFacts): Screen | 
   const t = ru.searchState
 
   if (status === 'idle') return { variant: 'idle', title: t.idle.title, text: t.idle.text, spoken: '' }
-  if (status === 'loading') return { variant: 'static', title: t.loading.title, spoken: t.loading.spoken }
+  // Если на экране прежняя выдача, загрузку показывает она сама, приглушаясь.
+  if (status === 'loading') {
+    return found > 0 ? null : { variant: 'static', title: t.loading.title, spoken: t.loading.spoken }
+  }
   if (status === 'error') {
     return { variant: 'bars', title: t.error.title, text: error ?? '', actionLabel: t.error.retry, spoken: error ?? '' }
   }
