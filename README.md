@@ -35,7 +35,7 @@ src/
   types/                     наши типы данных (Show, ShowSearchResult)
   locales/ru.ts              все тексты интерфейса
   styles/                    tokens.css (цвета, шрифты, отступы) и global.css
-scripts/                     проверки для npm run lint
+scripts/                     проверки для npm run lint и ux-shots.mjs — снимки экрана для ревью удобства
 ```
 
 Компонент — папка `<Name>/` с `<Name>.tsx`, рядом `<Name>.module.css`, при логике `usePresenter.ts`, вложенные компоненты в его `components/`.
