@@ -5,51 +5,14 @@
   gap: var(--space-2);
 }
 
-.onAir {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 3px var(--space-3);
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius-pill);
-  color: var(--c-muted);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.onAir:hover {
-  border-color: var(--c-line-strong);
-  color: var(--c-text);
-}
-
 .dot {
+  flex: none;
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--c-on-air);
   box-shadow: 0 0 10px var(--c-on-air);
   animation: blink 1.6s steps(1) infinite;
-}
-
-.title {
-  margin: 0;
-  font-size: clamp(34px, 4.2vw, 50px);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  white-space: nowrap;
-}
-
-.titleAccent {
-  color: var(--c-amber);
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  text-shadow: 0 0 36px var(--c-amber-glow);
 }
 
 @keyframes blink {

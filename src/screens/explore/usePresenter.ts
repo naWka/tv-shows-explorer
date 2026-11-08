@@ -25,6 +25,7 @@ export function usePresenter() {
   const items = filtered.slice(start, start + PAGE_SIZE).map((show, index) => ({
     show,
     number: String(start + index + 1).padStart(2, '0'),
+    meta: [show.year ?? 'Год неизвестен', ...show.genres].join(' · '),
   }))
   const canPrev = page > 1
   const canNext = page < pageCount

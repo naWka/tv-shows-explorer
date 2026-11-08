@@ -20,33 +20,11 @@
   transition: opacity 0.35s var(--ease-out);
 }
 
-.poster {
-  width: 100%;
+/* При наведении на карточку постер чуть приближается. */
+.picture {
   height: 100%;
-  object-fit: cover;
-  object-position: top;
   transform: scale(calc(1 + var(--hover, 0) * 0.04));
   transition: transform 0.6s var(--ease-out);
-}
-
-/* Рисуется только у битой картинки: закрывает иконку браузера заглушкой. */
-.poster::after {
-  content: attr(data-fallback);
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, var(--c-bg-glow), var(--c-bg) 75%);
-}
-
-.noImage,
-.poster::after {
-  display: grid;
-  place-items: center;
-  height: 100%;
-  color: var(--c-muted);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
 }
 
 .number,
@@ -58,9 +36,6 @@
   border-radius: 6px;
   background: var(--c-shade);
   backdrop-filter: blur(8px);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
 }
 
 .number {
@@ -69,7 +44,6 @@
 
 .rating {
   right: 10px;
-  color: var(--c-amber);
 }
 
 @keyframes channel-flick {
@@ -79,7 +53,7 @@
 
 @media (max-width: 720px) {
   .screen { flex: 0 0 34%; align-self: flex-start; }
-  .number, .rating { top: 6px; padding: 2px 5px; font-size: 10px; letter-spacing: 0.04em; }
+  .number, .rating { top: 6px; padding: 2px 5px; }
   .number { left: 6px; }
   .rating { right: 6px; }
 }

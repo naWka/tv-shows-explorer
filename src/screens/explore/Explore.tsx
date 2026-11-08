@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite'
 import { LiveStatus } from '../../ui-kit/LiveStatus/LiveStatus'
-import { Pagination } from '../../ui-kit/Pagination/Pagination'
-import { SearchInput } from '../../ui-kit/SearchInput/SearchInput'
-import { TvScreen } from '../../ui-kit/TvScreen/TvScreen'
 import { Brand } from './components/Brand/Brand'
 import { GenreFilter } from './components/GenreFilter/GenreFilter'
+import { Pagination } from './components/Pagination/Pagination'
+import { SearchInput } from './components/SearchInput/SearchInput'
 import { ShowCard } from './components/ShowCard/ShowCard'
+import { TvScreen } from './components/TvScreen/TvScreen'
 import s from './Explore.module.css'
 import { usePresenter } from './usePresenter'
 
@@ -68,7 +68,7 @@ export const Explore = observer(function Explore() {
             <ul className={s.grid}>
               {p.items.map((item) => (
                 <li key={item.show.id} className={s.cell}>
-                  <ShowCard show={item.show} number={item.number} />
+                  <ShowCard show={item.show} number={item.number} meta={item.meta} />
                 </li>
               ))}
             </ul>

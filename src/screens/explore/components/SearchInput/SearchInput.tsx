@@ -1,4 +1,7 @@
 import type { Ref } from 'react'
+import { Icon } from '../../../../ui-kit/Icon/Icon'
+import { Input } from '../../../../ui-kit/Input/Input'
+import { Text } from '../../../../ui-kit/Text/Text'
 import s from './SearchInput.module.css'
 
 type SearchInputProps = {
@@ -13,26 +16,22 @@ type SearchInputProps = {
 export function SearchInput({ label, placeholder, value, maxLength, inputRef, onChange }: SearchInputProps) {
   return (
     <label className={s.field}>
-      <span className={s.label}>{label}</span>
-      <svg className={s.icon} viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="10.5" cy="10.5" r="6.5" />
-        <path d="M15.5 15.5 21 21" />
-      </svg>
-      <input
-        ref={inputRef}
-        className={s.input}
+      <Icon name="search" size="large" tone="accent" />
+      <Input
         type="search"
-        autoComplete="off"
+        label={label}
         autoFocus
-        spellCheck={false}
+        inputRef={inputRef}
         maxLength={maxLength}
         placeholder={placeholder}
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={onChange}
       />
-      <span className={s.tuner} aria-hidden="true">
-        TUNE
-      </span>
+      <div className={s.tuner} aria-hidden="true">
+        <Text as="span" variant="overline" tone="muted">
+          TUNE
+        </Text>
+      </div>
     </label>
   )
 }

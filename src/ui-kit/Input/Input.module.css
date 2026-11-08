@@ -1,0 +1,33 @@
+/* Поле без рамки и фона: рамку рисует обёртка владельца. */
+.input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--c-text);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--c-muted);
+}
+
+.input::-webkit-search-cancel-button {
+  filter: grayscale(1) brightness(1.6);
+  cursor: pointer;
+}
+
+@media (max-width: 560px) {
+  .input {
+    font-size: 19px;
+  }
+}

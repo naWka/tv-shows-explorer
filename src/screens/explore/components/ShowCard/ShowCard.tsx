@@ -1,30 +1,30 @@
 import type { Show } from '../../../../types/show'
+import { Link } from '../../../../ui-kit/Link/Link'
+import { Text } from '../../../../ui-kit/Text/Text'
 import { ShowPoster } from './components/ShowPoster/ShowPoster'
 import s from './ShowCard.module.css'
 
 type ShowCardProps = {
   show: Show
   number: string
+  meta: string
 }
 
-export function ShowCard({ show, number }: ShowCardProps) {
+export function ShowCard({ show, number, meta }: ShowCardProps) {
   return (
     <article className={s.card}>
       <div className={s.body}>
-        <h2 className={s.name}>
-          <a className={s.link} href={show.url} target="_blank" rel="noreferrer">
+        <Text as="h2" variant="title" lines={2}>
+          <Link variant="stretched" href={show.url} target="_blank">
             {show.name}
-          </a>
-        </h2>
-        <p className={s.meta}>
-          <span>{show.year ?? 'Год неизвестен'}</span>
-          {show.genres.map((genre) => (
-            <span key={genre} className={s.genre}>
-              {genre}
-            </span>
-          ))}
-        </p>
-        <p className={s.summary}>{show.summary || 'Описания пока нет.'}</p>
+          </Link>
+        </Text>
+        <Text variant="caption" tone="muted" lines={1}>
+          {meta}
+        </Text>
+        <Text variant="body" tone="muted" lines={3}>
+          {show.summary || 'Описания пока нет.'}
+        </Text>
       </div>
 
       <ShowPoster imageUrl={show.imageUrl} number={number} rating={show.rating} />
