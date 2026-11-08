@@ -19,10 +19,6 @@
   list-style: none;
 }
 
-.cell {
-  min-height: 0;
-}
-
 /* Карточки страницы появляются по очереди слева направо. Задержку берут анимации карточки и постера. */
 .cell:nth-child(2) { --enter-delay: 60ms; }
 .cell:nth-child(3) { --enter-delay: 120ms; }
@@ -31,10 +27,10 @@
   .cell:nth-child(n) { --enter-delay: 0ms; }
 }
 
-/* Широкий экран: сетка занимает всю высоту окна, но не меньше 400px; если места мало, страница прокручивается. */
+/* Широкий экран: экран постера не выше окна без шапки, текста карточки и страниц, чтобы карточки помещались в окно целиком.
+   Но не ниже 360px: в низком окне страница прокручивается. Постер всё равно виден целиком, экран становится шире него. */
 @media (min-width: 861px) {
-  .results { display: flex; flex-direction: column; flex: 1; }
-  .grid { --poster-basis: 0; flex: 1; min-height: 400px; grid-template-rows: minmax(0, 1fr); }
+  .grid { --screen-max: max(360px, 100dvh - 560px); }
 }
 
 @media (max-width: 720px) {

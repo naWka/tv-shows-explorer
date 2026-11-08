@@ -1,46 +1,23 @@
+/* Карточка без своей рамки: рамка есть у телевизора с постером, текст стоит прямо на фоне страницы. */
 .card {
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 0;
-  padding: 10px;
-  border: 1px solid var(--c-line);
   border-radius: var(--radius-card);
-  background: linear-gradient(180deg, var(--c-surface-2), var(--c-surface));
   animation: card-enter 0.4s var(--ease-out-expo) var(--enter-delay, 0ms) both;
-  transition: border-color 0.25s var(--ease-out);
 }
 
-/* Наведение не сдвигает карточку: экран постера «настраивается», рамка загорается. --hover читают постер и подпись «TVmaze ↗». */
+/* Наведение не сдвигает карточку: экран постера «настраивается», корпус загорается. --hover читают постер и подпись «TVmaze ↗». */
 .card:hover {
   --hover: 1;
-  border-color: var(--c-line-strong);
-}
-
-/* Подсветка нарисована заранее и только проявляется: прозрачность браузер анимирует без перерисовки, box-shadow — с перерисовкой на каждом кадре. */
-.card::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow:
-    0 0 0 1px var(--c-amber-glow),
-    0 24px 48px -28px var(--c-amber-glow);
-  opacity: 0;
-  transition: opacity 0.25s var(--ease-out);
-}
-
-.card:hover::after {
-  opacity: 1;
 }
 
 /* Ссылка с названием накрывает всю карточку, поэтому рамку фокуса рисует карточка; с клавиатуры экран настраивается так же, как при наведении. */
 .card:has(a:focus-visible) {
   --hover: 1;
   outline: 2px solid var(--c-amber);
-  outline-offset: 3px;
+  outline-offset: 6px;
 }
 
 @keyframes card-enter {
@@ -48,13 +25,14 @@
   to { opacity: 1; transform: none; }
 }
 
-/* Описание всегда ниже постера, но в разметке идёт первым: диктор читает название раньше бейджей. */
+/* Описание всегда ниже постера, но в разметке идёт первым: диктор читает название раньше номера и рейтинга. */
 .body {
   order: 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-4) var(--space-2) var(--space-2);
+  padding: var(--space-4) var(--space-1) 0;
 }
 
 /* Подпись «TVmaze ↗» видна всегда, а не только при наведении: на телефоне наведения нет, а знать, что карточка уводит на другой сайт, нужно до клика.
@@ -78,5 +56,5 @@
 
 @media (max-width: 720px) {
   .card { flex-direction: row; gap: var(--space-3); }
-  .body { flex: 1; min-width: 0; padding: var(--space-1) var(--space-1) 0; }
+  .body { min-width: 0; padding: var(--space-1) 0 0; }
 }

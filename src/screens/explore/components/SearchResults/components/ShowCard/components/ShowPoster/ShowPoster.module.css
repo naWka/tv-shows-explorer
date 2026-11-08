@@ -1,10 +1,37 @@
-.screen {
+/* Телевизор: экран в корпусе, под экраном панель с номером и рейтингом. Поверх картинки ничего не лежит. */
+.set {
   position: relative;
-  flex: 1 1 var(--poster-basis, auto);
-  min-height: 0;
-  aspect-ratio: 3 / 4;
+  padding: var(--space-2) var(--space-2) 0;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, var(--c-surface-2), var(--c-surface));
+  box-shadow: 0 20px 40px -26px var(--c-shade-deep);
+}
+
+/* Наведение и фокус (--hover от карточки): корпус загорается янтарным. Подсветка нарисована заранее и только проявляется. */
+.set::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 1px var(--c-amber-glow),
+    0 24px 48px -28px var(--c-amber-glow);
+  opacity: var(--hover, 0);
+  transition: opacity 0.25s var(--ease-out);
+}
+
+/* Экран всегда показывает постер целиком. Обычно он 2:3, как постеры TVmaze. Если сетка ограничила высоту (--screen-max)
+   или постер другой пропорции, свободные края заполняет размытая копия той же картинки, как подсветка у телевизора. */
+.screen {
+  --radius: 12px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  max-height: var(--screen-max, none);
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: var(--radius);
   background: radial-gradient(ellipse at center, var(--c-bg-glow), var(--c-bg) 75%);
   animation: tube-on 0.45s var(--ease-out-expo) calc(var(--enter-delay, 0ms) + 60ms) both;
 }
@@ -24,6 +51,7 @@
   animation: tube-beam 0.45s var(--ease-out-expo) calc(var(--enter-delay, 0ms) + 60ms) both;
 }
 
+/* Строки кинескопа; при наведении экран «настраивается», и они почти пропадают. */
 .screen::after {
   content: '';
   position: absolute;
@@ -31,50 +59,52 @@
   pointer-events: none;
   opacity: calc(1 - var(--hover, 0) * 0.75);
   background: repeating-linear-gradient(to bottom, var(--c-scanline) 0 1px, transparent 1px 3px);
-  box-shadow: inset 0 0 60px var(--c-shade);
+  box-shadow: inset 0 0 40px var(--c-shade);
   transition: opacity 0.3s var(--ease-out);
 }
 
-/* При наведении на карточку постер чуть приближается. will-change держит картинку на своём слое: без него браузер перерисовывает её в начале и в конце приближения, и она вздрагивает. */
-.picture {
-  height: 100%;
-  transform: scale(calc(1 + var(--hover, 0) * 0.03));
-  transition: transform 0.5s var(--ease-out-expo);
-  will-change: transform;
+/* Размытая копия выходит за края экрана, чтобы размытие не оставляло светлой каймы. */
+.backdrop {
+  position: absolute;
+  inset: -12%;
+  filter: blur(24px) saturate(1.3) brightness(0.5);
 }
 
-/* Плашки одной высоты, содержимое по центру по вертикали. */
-.number,
+.picture {
+  position: relative;
+  height: 100%;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 38px;
+  padding: 0 var(--space-2);
+}
+
+/* Лампочка эфира: в покое тусклая, при наведении и фокусе горит красным. */
+.led {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c-on-air) calc(30% + var(--hover, 0) * 70%), var(--c-line));
+  box-shadow: 0 0 calc(var(--hover, 0) * 10px) var(--c-on-air);
+  transition: background-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+
 .rating {
-  position: absolute;
-  top: 10px;
-  z-index: 1;
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  height: 26px;
-  padding: 0 var(--space-2);
-  border-radius: 6px;
-}
-
-.number {
-  left: 10px;
-  background: var(--c-shade);
-  backdrop-filter: blur(8px);
-}
-
-/* Рейтинг — сплошная янтарная плашка: читается на светлом и тёмном постере. */
-.rating {
-  right: 10px;
-  padding-left: 6px;
-  background: var(--c-amber);
-  box-shadow: 0 2px 10px var(--c-shade), 0 0 18px var(--c-amber-glow);
+  margin-left: auto;
 }
 
 /* Первая четверть — только луч в щели, дальше щель открывается на весь экран. */
 @keyframes tube-on {
-  0%, 25% { clip-path: inset(calc(50% - 2px) 0 round 12px); animation-timing-function: var(--ease-out-expo); }
-  100% { clip-path: inset(0 round 12px); }
+  0%, 25% { clip-path: inset(calc(50% - 2px) 0 round var(--radius)); animation-timing-function: var(--ease-out-expo); }
+  100% { clip-path: inset(0 round var(--radius)); }
 }
 
 @keyframes tube-beam {
@@ -84,9 +114,7 @@
 }
 
 @media (max-width: 720px) {
-  .screen { flex: 0 0 34%; align-self: flex-start; }
-  .number, .rating { top: 6px; height: 22px; padding: 0 5px; }
-  /* Постер узкий: номер уходит вниз, чтобы не слипаться с рейтингом. */
-  .number { top: auto; bottom: 6px; left: 6px; }
-  .rating { right: 6px; }
+  .set { flex: 0 0 38%; align-self: flex-start; padding: 5px 5px 0; border-radius: 14px; }
+  .screen { --radius: 9px; }
+  .panel { gap: 6px; height: 30px; padding: 0 3px; }
 }
