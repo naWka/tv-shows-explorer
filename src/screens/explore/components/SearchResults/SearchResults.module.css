@@ -1,10 +1,13 @@
 .toolbar {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-3) var(--space-5);
   margin-bottom: var(--space-4);
+}
+
+/* Переключатель страниц под карточками: пользователь листает вниз и переключает там, где закончил смотреть. */
+.pager {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-5);
 }
 
 .grid {

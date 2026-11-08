@@ -23,17 +23,6 @@ export const SearchResults = observer(function SearchResults() {
               onSelect={p.onGenreSelect}
               onReset={p.onGenreReset}
             />
-
-            {p.hasPages && (
-              <Pagination
-                pages={p.pages}
-                canPrev={p.canPrev}
-                canNext={p.canNext}
-                onPrev={p.onPrev}
-                onNext={p.onNext}
-                onSelect={p.onPageSelect}
-              />
-            )}
           </div>
 
           <ul className={s.grid}>
@@ -43,6 +32,19 @@ export const SearchResults = observer(function SearchResults() {
               </li>
             ))}
           </ul>
+
+          {p.hasPages && (
+            <div className={s.pager}>
+              <Pagination
+                pages={p.pages}
+                canPrev={p.canPrev}
+                canNext={p.canNext}
+                onPrev={p.onPrev}
+                onNext={p.onNext}
+                onSelect={p.onPageSelect}
+              />
+            </div>
+          )}
         </section>
       )}
     </>
