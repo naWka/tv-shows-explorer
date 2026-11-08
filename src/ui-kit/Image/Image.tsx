@@ -8,7 +8,8 @@ type ImageProps = {
 
 export function Image({ src, alt, fallback }: ImageProps) {
   return src ? (
-    <img className={s.image} src={src} alt={alt} data-fallback={fallback} loading="lazy" />
+    // key по адресу: при смене картинки браузер не держит старую, пока грузится новая.
+    <img key={src} className={s.image} src={src} alt={alt} data-fallback={fallback} loading="lazy" />
   ) : (
     <div className={s.fallback}>{fallback}</div>
   )

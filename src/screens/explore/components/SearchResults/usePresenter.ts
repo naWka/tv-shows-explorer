@@ -24,7 +24,10 @@ export function usePresenter() {
     onGenreSelect: (name: string) => searchStore.setGenre(name === genre ? null : name),
     onGenreReset: () => searchStore.setGenre(null),
 
+    // Ключ — место на странице, а не шоу: при смене страницы карточки остаются и меняют содержимое,
+    // поэтому анимация включения не повторяется. Она играет, только когда приходит новая выдача.
     items: filtered.slice(start, start + PAGE_SIZE).map((show, index) => ({
+      slot: index,
       show,
       number: String(start + index + 1).padStart(2, '0'),
       meta: [show.year ?? ru.showCard.unknownYear, ...show.genres].join(' · '),

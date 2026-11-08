@@ -27,7 +27,7 @@ export const SearchResults = observer(function SearchResults() {
 
           <ul className={s.grid}>
             {p.items.map((item) => (
-              <li key={item.show.id} className={s.cell}>
+              <li key={item.slot} className={s.cell}>
                 <ShowCard show={item.show} number={item.number} meta={item.meta} />
               </li>
             ))}
