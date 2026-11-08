@@ -83,19 +83,20 @@
   color: var(--c-amber-ink);
 }
 
-/* lines — обрезать до N строк и держать высоту N строк, чтобы соседние блоки стояли ровно */
+/* lines — обрезать до N строк многоточием. Высоту под N строк не держит: короткий текст не оставляет пустых строк. */
 .text[data-lines] {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
 }
 
-.text[data-lines='1'] { -webkit-line-clamp: 1; min-height: 1lh; }
-.text[data-lines='2'] { -webkit-line-clamp: 2; min-height: 2lh; }
-.text[data-lines='3'] { -webkit-line-clamp: 3; min-height: 3lh; }
+.text[data-lines='1'] { -webkit-line-clamp: 1; }
+.text[data-lines='2'] { -webkit-line-clamp: 2; }
+.text[data-lines='3'] { -webkit-line-clamp: 3; }
 
-/* На узком экране строки только обрезаются, высота не держится. */
+/* narrowLines — на узком экране колонка уже, в строку входит меньше слов, и строк можно оставить больше. */
 @media (max-width: 720px) {
-  .text[data-lines] { min-height: 0; }
+  .text[data-narrow-lines='5'] { -webkit-line-clamp: 5; }
+  .text[data-narrow-lines='7'] { -webkit-line-clamp: 7; }
   .text[data-variant='title'] { font-size: 19px; }
 }

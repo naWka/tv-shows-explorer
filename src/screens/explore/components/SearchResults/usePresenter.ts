@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { ru } from '@locales/ru'
 import { searchStore } from '@stores/searchStore/searchStore'
 import type { Show } from '@app-types/show'
@@ -6,6 +7,13 @@ const PAGE_SIZE = 3
 
 export function usePresenter() {
   const { status, shows, genre, page, resultId, isResultNew } = searchStore
+  const listRef = useRef<HTMLUListElement>(null)
+
+  // Страницу переключили внизу длинного списка (на телефоне): показываем начало новой страницы, а не её конец.
+  useEffect(() => {
+    const list = listRef.current
+    if (list && list.getBoundingClientRect().top < 0) list.scrollIntoView({ block: 'start' })
+  }, [page])
 
   // Шоу в сторе есть только после удачной выдачи. Пока ищется уточнённый запрос, они остаются на экране приглушёнными.
   const hasResults = shows.length > 0
@@ -31,11 +39,13 @@ export function usePresenter() {
     // поэтому анимация включения не повторяется. Она играет, только когда приходит новая выдача:
     // карточки, которые появились на пустом месте после смены страницы или жанра, тоже не включаются (enter: 'off').
     enter: isResultNew ? 'on' : 'off',
+    listRef,
+    // Точка переносится вместе со следующим жанром (неразрывный пробел после неё), а не висит в конце строки.
     items: filtered.slice(start, start + PAGE_SIZE).map((show, index) => ({
       key: `${resultId}-${index}`,
       show,
       number: String(start + index + 1).padStart(2, '0'),
-      meta: [show.year ?? ru.showCard.unknownYear, ...show.genres].join(' · '),
+      meta: [show.year ?? ru.showCard.unknownYear, ...show.genres].join(' · '),
     })),
 
     pages: Array.from({ length: pageCount }, (_, index) => ({

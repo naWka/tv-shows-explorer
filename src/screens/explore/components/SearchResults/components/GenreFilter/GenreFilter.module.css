@@ -9,9 +9,12 @@
   .chips {
     flex-basis: 100%;
     flex-wrap: nowrap;
-    padding: var(--space-1) 2px;
+    /* Полоса доходит до краёв окна через отступ страницы (--page-gutter, а не 100vw: тот включает полосу прокрутки), и край её не гасит:
+       следующий чипс обрезан краем экрана, и видно, что полосу можно листать.
+       Отступ сверху и снизу — место для свечения активного чипса, полоса с прокруткой обрезала бы его; минус-поля возвращают высоту. */
+    margin: calc(-1 * var(--space-4)) calc(-1 * var(--page-gutter, 0px));
+    padding: var(--space-4) var(--page-gutter, 0px);
     overflow-x: auto;
     scrollbar-width: none;
-    mask-image: linear-gradient(to right, var(--c-bg) 85%, transparent);
   }
 }

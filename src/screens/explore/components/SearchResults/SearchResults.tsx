@@ -25,7 +25,7 @@ export const SearchResults = observer(function SearchResults() {
             />
           </div>
 
-          <ul className={s.grid} data-enter={p.enter}>
+          <ul ref={p.listRef} className={s.grid} data-enter={p.enter}>
             {p.items.map((item) => (
               <li key={item.key} className={s.cell}>
                 <ShowCard show={item.show} number={item.number} meta={item.meta} />

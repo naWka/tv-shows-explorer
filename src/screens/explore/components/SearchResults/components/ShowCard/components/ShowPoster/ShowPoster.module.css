@@ -1,6 +1,11 @@
-/* Телевизор: экран в корпусе, под экраном панель с номером и рейтингом. Поверх картинки ничего не лежит. */
+/* Телевизор: экран в корпусе, под экраном панель с номером и рейтингом. Поверх картинки ничего не лежит.
+   Когда карточке не хватает высоты, корпус ужимается за счёт экрана (min-height: 0), а текст под ним остаётся. */
 .set {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  min-height: 0;
   padding: var(--space-2) var(--space-2) 0;
   border: 1px solid var(--c-line);
   border-radius: var(--radius-card);
@@ -22,14 +27,14 @@
   transition: opacity 0.25s var(--ease-out);
 }
 
-/* Экран всегда показывает постер целиком. Обычно он 2:3, как постеры TVmaze. Если сетка ограничила высоту (--screen-max)
-   или постер другой пропорции, свободные края заполняет размытая копия той же картинки, как подсветка у телевизора. */
+/* Экран 2:3, как постеры TVmaze, и показывает постер целиком. Если экран ужат по высоте или постер другой пропорции,
+   свободные края заполняет размытая копия той же картинки, как подсветка у телевизора. */
 .screen {
   --radius: 12px;
   position: relative;
-  width: 100%;
+  flex: 0 1 auto;
+  min-height: 180px;
   aspect-ratio: 2 / 3;
-  max-height: var(--screen-max, none);
   overflow: hidden;
   border-radius: var(--radius);
   background: radial-gradient(ellipse at center, var(--c-bg-glow), var(--c-bg) 75%);
@@ -70,13 +75,11 @@
   filter: blur(24px) saturate(1.3) brightness(0.5);
 }
 
-.picture {
-  position: relative;
-  height: 100%;
-}
+.picture { position: relative; height: 100%; }
 
 .panel {
   display: flex;
+  flex: none;
   align-items: center;
   gap: var(--space-2);
   height: 38px;
@@ -94,12 +97,7 @@
   transition: background-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
 }
 
-.rating {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  margin-left: auto;
-}
+.rating { display: flex; align-items: center; gap: var(--space-1); margin-left: auto; }
 
 /* Первая четверть — только луч в щели, дальше щель открывается на весь экран. */
 @keyframes tube-on {
@@ -114,7 +112,8 @@
 }
 
 @media (max-width: 720px) {
-  .set { flex: 0 0 38%; align-self: flex-start; padding: 5px 5px 0; border-radius: 14px; }
-  .screen { --radius: 9px; }
+  /* Не шире 150px: тогда постер примерно в высоту семи строк описания и рядом с текстом не остаётся пустоты. */
+  .set { flex: 0 0 min(38%, 150px); align-self: flex-start; padding: 5px 5px 0; border-radius: 14px; }
+  .screen { --radius: 9px; min-height: 0; }
   .panel { gap: 6px; height: 30px; padding: 0 3px; }
 }

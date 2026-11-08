@@ -63,10 +63,3 @@
   background: var(--c-amber);
   color: var(--c-amber-ink);
 }
-
-@media (max-width: 420px) {
-  .button[data-variant='round'] {
-    width: 40px;
-    height: 40px;
-  }
-}

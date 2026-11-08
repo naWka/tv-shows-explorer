@@ -12,14 +12,20 @@
   margin-bottom: var(--space-4);
 }
 
-/* Переключатель страниц под карточками: пользователь листает вниз и переключает там, где закончил смотреть. */
+/* Переключатель страниц под карточками: пользователь листает вниз и переключает там, где закончил смотреть.
+   Если карточки не помещаются в окно, переключатель прилипает к нижнему краю окна: он виден всегда, без прокрутки. */
 .pager {
+  position: sticky;
+  bottom: var(--space-3);
+  z-index: 3;
   display: flex;
   justify-content: center;
   margin-top: var(--space-5);
 }
 
+/* scroll-margin — отступ сверху, когда презентер прокручивает к началу новой страницы. */
 .grid {
+  scroll-margin-top: var(--space-3);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-5);
@@ -40,10 +46,21 @@
   .cell:nth-child(n) { --enter-delay: 0ms; }
 }
 
-/* Широкий экран: экран постера не выше окна без шапки, текста карточки и страниц, чтобы карточки помещались в окно целиком.
-   Но не ниже 360px: в низком окне страница прокручивается. Постер всё равно виден целиком, экран становится шире него. */
+/* Широкий экран: сетка в полный рост (постер 2:3), а если окно ниже — ужимается до места между шапкой и переключателем.
+   Ужимается экран постера, текст остаётся. Ниже 440px сетка не становится: дальше страница прокручивается. */
 @media (min-width: 861px) {
-  .grid { --screen-max: max(360px, 100dvh - 560px); }
+  .results { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .grid { flex: 0 1 auto; min-height: 440px; grid-template-rows: minmax(0, 1fr); }
+}
+
+@media (min-width: 861px) and (max-height: 820px) {
+  .toolbar { margin-bottom: var(--space-3); }
+  .pager { margin-top: var(--space-3); }
+}
+
+/* Окно ниже 500px (телефон боком): прилипший переключатель занял бы пятую часть окна и закрывал постер. Он стоит под списком. */
+@media (max-height: 500px) {
+  .pager { position: static; }
 }
 
 @media (max-width: 720px) {

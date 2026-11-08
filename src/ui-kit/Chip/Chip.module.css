@@ -44,3 +44,10 @@
   background: var(--c-ink-tint);
   color: var(--c-amber-ink);
 }
+
+/* На телефоне по чипсу попадают пальцем: высота не меньше 44px. */
+@media (max-width: 720px) {
+  .chip {
+    min-height: 44px;
+  }
+}

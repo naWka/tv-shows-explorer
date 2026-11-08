@@ -21,10 +21,10 @@ export function ShowCard({ show, number, meta }: ShowCardProps) {
             {show.name}
           </Link>
         </Text>
-        <Text variant="caption" tone="muted" lines={1}>
+        <Text variant="caption" tone="muted" lines={2}>
           {meta}
         </Text>
-        <Text variant="body" tone="muted" lines={3}>
+        <Text variant="body" tone="muted" lines={3} narrowLines={7}>
           {show.summary || ru.showCard.noSummary}
         </Text>
         <div className={s.source} aria-hidden="true">
