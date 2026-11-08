@@ -43,4 +43,5 @@
   --space-8: 72px;
 
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }

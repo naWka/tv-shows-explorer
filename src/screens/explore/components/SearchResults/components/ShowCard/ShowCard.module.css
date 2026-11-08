@@ -8,28 +8,17 @@
   border: 1px solid var(--c-line);
   border-radius: var(--radius-card);
   background: linear-gradient(180deg, var(--c-surface-2), var(--c-surface));
-  transition:
-    transform 0.35s var(--ease-out),
-    border-color 0.35s var(--ease-out);
+  animation: card-enter 0.4s var(--ease-out-expo) var(--enter-delay, 0ms) both;
+  transition: border-color 0.25s var(--ease-out);
 }
 
+/* Наведение не сдвигает карточку: экран постера «настраивается», рамка загорается. --hover читает постер. */
 .card:hover {
   --hover: 1;
-  transform: translateY(-6px);
   border-color: var(--c-line-strong);
 }
 
-/* Поднятая карточка уходит из-под курсора у нижнего края. Полоса под ней держит наведение, иначе карточка прыгает вверх-вниз. */
-.card:hover::before {
-  content: '';
-  position: absolute;
-  top: 100%;
-  right: 0;
-  left: 0;
-  height: 8px;
-}
-
-/* Тень нарисована заранее и только проявляется: прозрачность браузер анимирует без перерисовки, box-shadow — с перерисовкой на каждом кадре. */
+/* Подсветка нарисована заранее и только проявляется: прозрачность браузер анимирует без перерисовки, box-shadow — с перерисовкой на каждом кадре. */
 .card::after {
   content: '';
   position: absolute;
@@ -37,20 +26,26 @@
   border-radius: inherit;
   pointer-events: none;
   box-shadow:
-    0 30px 60px -30px var(--c-shade-deep),
-    0 0 0 1px var(--c-amber-glow);
+    0 0 0 1px var(--c-amber-glow),
+    0 24px 48px -28px var(--c-amber-glow);
   opacity: 0;
-  transition: opacity 0.35s var(--ease-out);
+  transition: opacity 0.25s var(--ease-out);
 }
 
 .card:hover::after {
   opacity: 1;
 }
 
-/* Ссылка с названием накрывает всю карточку, поэтому рамку фокуса рисует карточка. */
+/* Ссылка с названием накрывает всю карточку, поэтому рамку фокуса рисует карточка; с клавиатуры экран настраивается так же, как при наведении. */
 .card:has(a:focus-visible) {
+  --hover: 1;
   outline: 2px solid var(--c-amber);
   outline-offset: 3px;
+}
+
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* Описание всегда ниже постера, но в разметке идёт первым: диктор читает название раньше бейджей. */

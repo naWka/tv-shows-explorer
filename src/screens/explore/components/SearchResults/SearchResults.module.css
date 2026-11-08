@@ -14,17 +14,18 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  animation: power-on 0.5s var(--ease-out) both;
 }
 
 .cell {
   min-height: 0;
 }
 
-@keyframes power-on {
-  0% { transform: scale(1, 0.01); filter: brightness(3); }
-  60% { transform: scale(1, 1.02); filter: brightness(1.4); }
-  100% { transform: none; filter: none; }
+/* Карточки страницы появляются по очереди слева направо. Задержку берут анимации карточки и постера. */
+.cell:nth-child(2) { --enter-delay: 60ms; }
+.cell:nth-child(3) { --enter-delay: 120ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cell:nth-child(n) { --enter-delay: 0ms; }
 }
 
 /* Широкий экран: сетка занимает всю высоту окна, но не меньше 400px; если места мало, страница прокручивается. */

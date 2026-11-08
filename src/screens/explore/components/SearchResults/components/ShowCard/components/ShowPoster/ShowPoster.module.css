@@ -6,7 +6,22 @@
   overflow: hidden;
   border-radius: 12px;
   background: radial-gradient(ellipse at center, var(--c-bg-glow), var(--c-bg) 75%);
-  animation: channel-flick 0.2s var(--ease-out) both;
+  animation: tube-on 0.45s var(--ease-out-expo) calc(var(--enter-delay, 0ms) + 60ms) both;
+}
+
+/* Включение кинескопа: по центру вспыхивает тонкий луч, из него раскрывается картинка. Картинка не растягивается, её открывает маска. */
+.screen::before {
+  content: '';
+  position: absolute;
+  top: calc(50% - 1px);
+  right: 0;
+  left: 0;
+  z-index: 2;
+  height: 2px;
+  pointer-events: none;
+  background: var(--c-text);
+  box-shadow: 0 0 10px var(--c-amber-glow);
+  animation: tube-beam 0.45s var(--ease-out-expo) calc(var(--enter-delay, 0ms) + 60ms) both;
 }
 
 .screen::after {
@@ -17,14 +32,14 @@
   opacity: calc(1 - var(--hover, 0) * 0.75);
   background: repeating-linear-gradient(to bottom, var(--c-scanline) 0 1px, transparent 1px 3px);
   box-shadow: inset 0 0 60px var(--c-shade);
-  transition: opacity 0.35s var(--ease-out);
+  transition: opacity 0.3s var(--ease-out);
 }
 
 /* При наведении на карточку постер чуть приближается. will-change держит картинку на своём слое: без него браузер перерисовывает её в начале и в конце приближения, и она вздрагивает. */
 .picture {
   height: 100%;
-  transform: scale(calc(1 + var(--hover, 0) * 0.04));
-  transition: transform 0.6s var(--ease-out);
+  transform: scale(calc(1 + var(--hover, 0) * 0.03));
+  transition: transform 0.5s var(--ease-out-expo);
   will-change: transform;
 }
 
@@ -56,9 +71,16 @@
   box-shadow: 0 2px 10px var(--c-shade), 0 0 18px var(--c-amber-glow);
 }
 
-@keyframes channel-flick {
-  0% { transform: translateY(-2%); filter: brightness(2.2) contrast(1.4); }
-  100% { transform: none; filter: none; }
+/* Первая четверть — только луч в щели, дальше щель открывается на весь экран. */
+@keyframes tube-on {
+  0%, 25% { clip-path: inset(calc(50% - 2px) 0 round 12px); animation-timing-function: var(--ease-out-expo); }
+  100% { clip-path: inset(0 round 12px); }
+}
+
+@keyframes tube-beam {
+  0% { opacity: 1; transform: scaleX(0); animation-timing-function: var(--ease-out-expo); }
+  25% { opacity: 1; transform: scaleX(1); }
+  60%, 100% { opacity: 0; transform: scaleX(1); }
 }
 
 @media (max-width: 720px) {
