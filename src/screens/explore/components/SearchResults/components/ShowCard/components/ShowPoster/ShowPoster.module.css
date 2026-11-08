@@ -33,7 +33,7 @@
   overflow: hidden;
   border-radius: var(--radius);
   background: radial-gradient(ellipse at center, var(--c-bg-glow), var(--c-bg) 75%);
-  animation: tube-on 0.45s var(--ease-out-expo) calc(var(--enter-delay, 0ms) + 60ms) both;
+  animation: tube-on calc(0.45s * var(--enter, 1)) var(--ease-out-expo) calc((var(--enter-delay, 0ms) + 60ms) * var(--enter, 1)) both;
 }
 
 /* Включение кинескопа: по центру вспыхивает тонкий луч, из него раскрывается картинка. Картинка не растягивается, её открывает маска. */
@@ -48,7 +48,7 @@
   pointer-events: none;
   background: var(--c-text);
   box-shadow: 0 0 10px var(--c-amber-glow);
-  animation: tube-beam 0.45s var(--ease-out-expo) calc(var(--enter-delay, 0ms) + 60ms) both;
+  animation: tube-beam calc(0.45s * var(--enter, 1)) var(--ease-out-expo) calc((var(--enter-delay, 0ms) + 60ms) * var(--enter, 1)) both;
 }
 
 /* Строки кинескопа; при наведении экран «настраивается», и они почти пропадают. */

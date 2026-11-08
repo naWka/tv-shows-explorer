@@ -5,7 +5,7 @@ import type { Show } from '@app-types/show'
 const PAGE_SIZE = 3
 
 export function usePresenter() {
-  const { status, shows, genre, page, resultId } = searchStore
+  const { status, shows, genre, page, resultId, isResultNew } = searchStore
 
   // Шоу в сторе есть только после удачной выдачи. Пока ищется уточнённый запрос, они остаются на экране приглушёнными.
   const hasResults = shows.length > 0
@@ -28,7 +28,9 @@ export function usePresenter() {
     onGenreReset: () => searchStore.setGenre(null),
 
     // Ключ — номер выдачи и место на странице, а не шоу: при смене страницы карточки остаются и меняют содержимое,
-    // поэтому анимация включения не повторяется. Она играет, только когда приходит новая выдача.
+    // поэтому анимация включения не повторяется. Она играет, только когда приходит новая выдача:
+    // карточки, которые появились на пустом месте после смены страницы или жанра, тоже не включаются (enter: 'off').
+    enter: isResultNew ? 'on' : 'off',
     items: filtered.slice(start, start + PAGE_SIZE).map((show, index) => ({
       key: `${resultId}-${index}`,
       show,
