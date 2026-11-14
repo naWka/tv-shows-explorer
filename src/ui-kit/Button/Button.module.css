@@ -63,3 +63,28 @@
   background: var(--c-amber);
   color: var(--c-amber-ink);
 }
+
+/* На телефоне, в том числе боком, по пилюле попадают пальцем: высота не меньше 44px. */
+@media (max-width: 720px), (max-height: 500px) {
+  .button[data-variant='outline'] {
+    min-height: 44px;
+  }
+}
+
+/* ghost — кнопка-значок без корпуса: видна только иконка, а попадать можно в круг 44px. Включённая горит акцентом. */
+.button[data-variant='ghost'] {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-muted);
+}
+
+.button[data-variant='ghost']:hover:not([aria-disabled='true']),
+.button[data-variant='ghost'][aria-pressed='true'] {
+  color: var(--c-amber);
+}
+
+.button[data-variant='ghost']:active:not([aria-disabled='true']) {
+  transform: scale(0.88);
+}

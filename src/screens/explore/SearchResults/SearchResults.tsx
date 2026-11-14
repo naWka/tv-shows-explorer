@@ -34,7 +34,14 @@ export const SearchResults = observer(function SearchResults({ isLoading, onGenr
           <ul ref={p.listRef} className={s.grid} data-enter={p.enter}>
             {p.items.map((item) => (
               <li key={item.key} className={s.cell}>
-                <ShowCard show={item.show} title={item.title} number={item.number} meta={item.meta} />
+                <ShowCard
+                  show={item.show}
+                  title={item.title}
+                  number={item.number}
+                  meta={item.meta}
+                  favorite={item.favorite}
+                  onFavoriteToggle={() => p.onFavoriteToggle(item.show)}
+                />
               </li>
             ))}
           </ul>

@@ -1,0 +1,56 @@
+/* Ссылка с названием накрывает всю строку, поэтому рамку фокуса рисует строка. */
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border: 1px solid var(--c-line);
+  border-radius: 14px;
+  background: var(--c-surface-2);
+  transition: border-color 0.18s var(--ease-out);
+}
+
+.row:hover {
+  border-color: var(--c-line-strong);
+}
+
+.row:has(a:focus-visible) {
+  outline: 2px solid var(--c-amber);
+  outline-offset: 2px;
+}
+
+.poster {
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--c-bg);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+/* Скринридер подпись не читает: то же самое он слышит в названии ссылки. Наведение на строку её зажигает. */
+.source {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--c-muted);
+  transition: color 0.25s var(--ease-out);
+}
+
+.row:hover .source,
+.row:has(a:focus-visible) .source {
+  color: var(--c-amber);
+}
+
+/* Звёздочка стоит над ссылкой, которая накрывает строку. */
+.favorite {
+  position: relative;
+  z-index: 3;
+}

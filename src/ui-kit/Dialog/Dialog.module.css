@@ -1,0 +1,52 @@
+.dialog {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+
+.dialog::backdrop {
+  background: var(--c-shade);
+  opacity: 0;
+  transition:
+    opacity 0.3s var(--ease-out),
+    display 0.3s allow-discrete,
+    overlay 0.3s allow-discrete;
+}
+
+.dialog[open]::backdrop {
+  opacity: 1;
+}
+
+/* side — панель во всю высоту окна, выезжает из-за правого края; на узком экране занимает его целиком */
+.dialog[data-variant='side'] {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(440px, 100vw);
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  border-left: 1px solid var(--c-line-strong);
+  box-shadow: -24px 0 60px -30px var(--c-shade-deep);
+  transform: translateX(100%);
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    display 0.35s allow-discrete,
+    overlay 0.35s allow-discrete;
+}
+
+.dialog[data-variant='side'][open] {
+  transform: none;
+}
+
+/* С чего начинается появление: без этого браузер покажет окно сразу на месте. */
+@starting-style {
+  .dialog[data-variant='side'][open] {
+    transform: translateX(100%);
+  }
+
+  .dialog[open]::backdrop {
+    opacity: 0;
+  }
+}

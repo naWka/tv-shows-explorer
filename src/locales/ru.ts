@@ -52,4 +52,22 @@ export const ru = {
   showPoster: {
     noPoster: 'Нет постера',
   },
+  favorites: {
+    open: 'Избранное',
+    openSpoken: (count: number) => `Открыть избранное. Шоу в нём: ${count}`,
+    title: 'Избранное',
+    close: 'Закрыть избранное',
+    empty: { title: 'Пока пусто', text: 'Нажмите звёздочку на карточке — шоу появится здесь' },
+    loadFailed: 'Не получилось загрузить избранное. Обновите страницу.',
+  },
+  favoriteToggle: {
+    add: (title: string) => `Добавить «${title}» в избранное`,
+    remove: (title: string) => `Убрать «${title}» из избранного`,
+    toast: {
+      added: (title: string) => `«${title}» — в избранном`,
+      removed: (title: string) => `«${title}» убрано из избранного`,
+      addFailed: (title: string) => `Не получилось добавить «${title}». Попробуйте ещё раз.`,
+      removeFailed: (title: string) => `Не получилось убрать «${title}». Попробуйте ещё раз.`,
+    },
+  },
 }

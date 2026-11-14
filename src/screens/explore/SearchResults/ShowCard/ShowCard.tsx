@@ -1,5 +1,6 @@
 import { texts } from '@locales/index'
 import type { Show } from '@contract/show'
+import { Button } from '@ui-kit/Button/Button'
 import { Icon } from '@ui-kit/Icon/Icon'
 import { Link } from '@ui-kit/Link/Link'
 import { Text } from '@ui-kit/Text/Text'
@@ -11,17 +12,34 @@ type ShowCardProps = {
   title: string
   number: string
   meta: string
+  favorite: { active: boolean; pending: boolean; label: string; icon: 'star' | 'starOutline' }
+  onFavoriteToggle: () => void
 }
 
-export function ShowCard({ show, title, number, meta }: ShowCardProps) {
+export function ShowCard({ show, title, number, meta, favorite, onFavoriteToggle }: ShowCardProps) {
   return (
     <article className={s.card}>
       <div className={s.body}>
-        <Text as="h2" variant="title" lines={2}>
-          <Link variant="stretched" href={show.url} target="_blank" spoken={texts.showCard.sourceSpoken}>
-            {title}
-          </Link>
-        </Text>
+        <div className={s.head}>
+          <div className={s.title}>
+            <Text as="h2" variant="title" lines={2}>
+              <Link variant="stretched" href={show.url} target="_blank" spoken={texts.showCard.sourceSpoken}>
+                {title}
+              </Link>
+            </Text>
+          </div>
+          <div className={s.favorite}>
+            <Button
+              variant="ghost"
+              label={favorite.label}
+              pressed={favorite.active}
+              disabled={favorite.pending}
+              onClick={onFavoriteToggle}
+            >
+              <Icon name={favorite.icon} size="medium" />
+            </Button>
+          </div>
+        </div>
         <Text variant="caption" tone="muted" lines={2}>
           {meta}
         </Text>

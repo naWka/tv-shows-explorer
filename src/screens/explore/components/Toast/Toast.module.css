@@ -1,0 +1,62 @@
+/* Сообщение экрана. В широком окне стоит в правом нижнем углу: там оно ничего не закрывает. */
+.toast {
+  --from: 12px;
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 360px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--c-amber);
+  border-radius: var(--radius-card);
+  background: var(--c-surface-2);
+  box-shadow:
+    0 0 24px var(--c-amber-glow),
+    0 18px 40px -18px var(--c-shade-deep);
+  pointer-events: none;
+  animation: toast-in 0.3s var(--ease-out-expo) both;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(var(--from)); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Узкое или низкое окно (телефон, телефон боком): внизу карточки, их звёздочки и переключатель страниц,
+   поэтому сообщение встаёт сверху, поверх шапки. */
+@media (max-width: 720px), (max-height: 500px) {
+  .toast {
+    --from: -12px;
+    top: var(--space-3);
+    right: var(--space-4);
+    bottom: auto;
+    left: var(--space-4);
+    /* По ширине текста и по центру окна, а не полосой от края до края. */
+    width: fit-content;
+    max-width: calc(100% - 2 * var(--space-4));
+    margin-inline: auto;
+  }
+}
+
+/* Внутри окна (панель избранного) сообщение не лежит поверх содержимого, а занимает свою полосу внизу окна:
+   список над ним на это время становится короче, и ни одна строка не закрыта. */
+:global(dialog) .toast {
+  --from: 12px;
+  position: static;
+  flex: none;
+  width: auto;
+  max-width: none;
+  margin: 0 var(--space-4) var(--space-4);
+}
+
+/* Пока окно открыто, сообщение показывает оно, а такое же сообщение экрана под ним скрыто. */
+:global(html:has(dialog[open])) .toast {
+  visibility: hidden;
+}
+
+:global(html:has(dialog[open]) dialog[open]) .toast {
+  visibility: visible;
+}

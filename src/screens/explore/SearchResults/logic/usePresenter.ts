@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { texts } from '@locales/index'
 import { searchStore } from '@stores/searchStore/searchStore'
+import type { Show } from '@contract/show'
 import type { ShowsPage } from '@contract/showsPage'
+import { useFavoriteToggle } from '../../logic/useFavoriteToggle'
 
 const NO_RESULT: ShowsPage = { shows: [], page: 1, pageCount: 0, offset: 0, found: 0, total: 0, genre: null, genres: [] }
 
@@ -14,6 +16,7 @@ export function usePresenter(
   const { resultId, isResultNew } = searchStore
   const { shows, page, pageCount, offset, found, total, genre, genres } = searchStore.result ?? NO_RESULT
   const listRef = useRef<HTMLUListElement>(null)
+  const favorite = useFavoriteToggle()
 
   // Страницу переключили внизу длинного списка (на телефоне): показываем начало новой страницы, а не её конец.
   useEffect(() => {
@@ -50,7 +53,9 @@ export function usePresenter(
       title: show.name || texts.showCard.untitled,
       number: String(offset + index + 1).padStart(2, '0'),
       meta: [show.year ?? texts.showCard.unknownYear, ...show.genres].join(' · '),
+      favorite: favorite.describe(show),
     })),
+    onFavoriteToggle: (show: Show) => void favorite.toggle(show),
 
     pages: Array.from({ length: pageCount }, (_, index) => ({
       value: index + 1,
