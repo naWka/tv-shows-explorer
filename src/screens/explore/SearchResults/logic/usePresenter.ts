@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { ru } from '@locales/ru'
+import { texts } from '@locales/index'
 import { searchStore } from '@stores/searchStore/searchStore'
 import type { Show } from '@app-types/show'
 
@@ -44,14 +44,14 @@ export function usePresenter(isLoading: boolean) {
     items: filtered.slice(start, start + PAGE_SIZE).map((show, index) => ({
       key: `${resultId}-${index}`,
       show,
-      title: show.name || ru.showCard.untitled,
+      title: show.name || texts.showCard.untitled,
       number: String(start + index + 1).padStart(2, '0'),
-      meta: [show.year ?? ru.showCard.unknownYear, ...show.genres].join(' · '),
+      meta: [show.year ?? texts.showCard.unknownYear, ...show.genres].join(' · '),
     })),
 
     pages: Array.from({ length: pageCount }, (_, index) => ({
       value: index + 1,
-      label: ru.pagination.page(index + 1),
+      label: texts.pagination.page(index + 1),
       current: index + 1 === page,
     })),
     hasPages: pageCount > 1,
@@ -65,8 +65,8 @@ export function usePresenter(isLoading: boolean) {
 
 function describeAnnouncement(hasResults: boolean, isStale: boolean, found: number, page: number, pageCount: number) {
   if (!hasResults) return ''
-  if (isStale) return ru.searchResults.loadingSpoken
-  return ru.searchResults.spoken(found, page, pageCount)
+  if (isStale) return texts.searchResults.loadingSpoken
+  return texts.searchResults.spoken(found, page, pageCount)
 }
 
 function countGenres(shows: Show[]) {

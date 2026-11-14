@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { ru } from '@locales/ru'
+import { texts } from '@locales/index'
 import { Brand } from './Brand/Brand'
 import { SearchInput } from './SearchInput/SearchInput'
 import { SearchResults } from './SearchResults/SearchResults'
@@ -15,8 +15,8 @@ export const Explore = observer(function Explore() {
       <header className={s.header}>
         <Brand />
         <SearchInput
-          label={ru.explore.searchLabel}
-          placeholder={ru.explore.searchPlaceholder}
+          label={texts.explore.searchLabel}
+          placeholder={texts.explore.searchPlaceholder}
           value={p.query}
           maxLength={p.queryMaxLength}
           inputRef={p.inputRef}

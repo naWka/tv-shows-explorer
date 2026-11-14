@@ -32,7 +32,7 @@ src/
   stores/searchStore/        глобальный стор MobX: запрос, жанр, страница, шоу
   api/tvmaze/                транспорт (client.ts) и метод API getShows: запрос и перевод ответа в Show
   types/                     наши типы данных (Show, ApiErrorKind, ShowSearchOutcome)
-  locales/ru.ts              все тексты интерфейса
+  locales/                   все тексты интерфейса: ru.ts, а index.ts отдаёт выбранный язык
   styles/                    tokens.css (цвета, шрифты, отступы) и global.css
 scripts/                     проверки для npm run lint и ux-shots.mjs — снимки экрана для ревью удобства
 ```

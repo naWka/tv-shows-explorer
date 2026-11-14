@@ -1,4 +1,4 @@
-import { ru } from '@locales/ru'
+import { texts } from '@locales/index'
 import { Button } from '@ui-kit/Button/Button'
 import { Icon } from '@ui-kit/Icon/Icon'
 import { Text } from '@ui-kit/Text/Text'
@@ -21,8 +21,8 @@ type PaginationProps = {
 
 export function Pagination({ pages, canPrev, canNext, onPrev, onNext, onSelect }: PaginationProps) {
   return (
-    <nav className={s.remote} aria-label={ru.pagination.label}>
-      <Button variant="round" label={ru.pagination.prev} disabled={!canPrev} onClick={onPrev}>
+    <nav className={s.remote} aria-label={texts.pagination.label}>
+      <Button variant="round" label={texts.pagination.prev} disabled={!canPrev} onClick={onPrev}>
         <Icon name="prev" size="medium" />
       </Button>
 
@@ -44,7 +44,7 @@ export function Pagination({ pages, canPrev, canNext, onPrev, onNext, onSelect }
         </Button>
       ))}
 
-      <Button variant="round" label={ru.pagination.next} disabled={!canNext} onClick={onNext}>
+      <Button variant="round" label={texts.pagination.next} disabled={!canNext} onClick={onNext}>
         <Icon name="next" size="medium" />
       </Button>
     </nav>

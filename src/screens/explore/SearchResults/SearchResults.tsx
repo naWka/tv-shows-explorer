@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { ru } from '@locales/ru'
+import { texts } from '@locales/index'
 import { LiveStatus } from '@ui-kit/LiveStatus/LiveStatus'
 import { GenreFilter } from './GenreFilter/GenreFilter'
 import { Pagination } from './Pagination/Pagination'
@@ -18,7 +18,7 @@ export const SearchResults = observer(function SearchResults({ isLoading }: Sear
     <>
       <LiveStatus text={p.announcement} />
       {p.hasResults && (
-        <section className={s.results} aria-label={ru.searchResults.label} aria-busy={p.isStale}>
+        <section className={s.results} aria-label={texts.searchResults.label} aria-busy={p.isStale}>
           <div className={s.toolbar}>
             <GenreFilter
               genres={p.genres}

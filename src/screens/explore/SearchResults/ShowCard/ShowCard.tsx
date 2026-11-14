@@ -1,4 +1,4 @@
-import { ru } from '@locales/ru'
+import { texts } from '@locales/index'
 import type { Show } from '@app-types/show'
 import { Icon } from '@ui-kit/Icon/Icon'
 import { Link } from '@ui-kit/Link/Link'
@@ -18,7 +18,7 @@ export function ShowCard({ show, title, number, meta }: ShowCardProps) {
     <article className={s.card}>
       <div className={s.body}>
         <Text as="h2" variant="title" lines={2}>
-          <Link variant="stretched" href={show.url} target="_blank" spoken={ru.showCard.sourceSpoken}>
+          <Link variant="stretched" href={show.url} target="_blank" spoken={texts.showCard.sourceSpoken}>
             {title}
           </Link>
         </Text>
@@ -26,11 +26,11 @@ export function ShowCard({ show, title, number, meta }: ShowCardProps) {
           {meta}
         </Text>
         <Text variant="body" tone="muted" lines={3} narrowLines={7}>
-          {show.summary || ru.showCard.noSummary}
+          {show.summary || texts.showCard.noSummary}
         </Text>
         <div className={s.source} aria-hidden="true">
           <Text as="span" variant="caption">
-            {ru.showCard.source}
+            {texts.showCard.source}
           </Text>
           <div className={s.arrow}>
             <Icon name="external" size="small" />

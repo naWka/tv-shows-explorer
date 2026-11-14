@@ -1,4 +1,4 @@
-import { ru } from '@locales/ru'
+import { texts } from '@locales/index'
 import { searchStore } from '@stores/searchStore/searchStore'
 import type { ApiErrorKind } from '@app-types/apiError'
 
@@ -29,7 +29,7 @@ type ScreenFacts = {
 }
 
 function describeScreen({ isLoading, error, query, found, hasResult }: ScreenFacts): Screen | null {
-  const t = ru.searchState
+  const t = texts.searchState
 
   // Если на экране прежняя выдача, загрузку показывает она сама, приглушаясь.
   if (isLoading) {

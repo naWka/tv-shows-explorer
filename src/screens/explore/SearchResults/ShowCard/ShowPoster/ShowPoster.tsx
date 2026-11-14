@@ -1,4 +1,4 @@
-import { ru } from '@locales/ru'
+import { texts } from '@locales/index'
 import type { Show } from '@app-types/show'
 import { Icon } from '@ui-kit/Icon/Icon'
 import { Image } from '@ui-kit/Image/Image'
@@ -31,7 +31,7 @@ export function ShowPoster({ poster, number, rating }: ShowPosterProps) {
             largeMedia={WIDE_SCREEN}
             alt=""
             fit="contain"
-            fallback={ru.showPoster.noPoster}
+            fallback={texts.showPoster.noPoster}
           />
         </div>
       </div>
