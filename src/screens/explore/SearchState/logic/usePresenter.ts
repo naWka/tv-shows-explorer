@@ -1,6 +1,6 @@
 import { texts } from '@locales/index'
 import { searchStore } from '@stores/searchStore/searchStore'
-import type { ApiErrorKind } from '@app-types/apiError'
+import type { ApiErrorKind } from '@contract/apiError'
 
 type Screen = {
   variant: 'idle' | 'static' | 'bars'
@@ -11,8 +11,8 @@ type Screen = {
 }
 
 export function usePresenter(isLoading: boolean, error: ApiErrorKind | null) {
-  const { query, shows, shownQuery } = searchStore
-  const screen = describeScreen({ isLoading, error, query, found: shows.length, hasResult: shownQuery !== null })
+  const { query, result, shownQuery } = searchStore
+  const screen = describeScreen({ isLoading, error, query, found: result?.total ?? 0, hasResult: shownQuery !== null })
 
   return {
     screen,

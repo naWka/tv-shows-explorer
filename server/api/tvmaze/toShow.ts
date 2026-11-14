@@ -1,5 +1,6 @@
-import type { Show } from '@app-types/show'
-import type { TvmazeSearchItem, TvmazeShow } from './types'
+import { parse } from 'node-html-parser'
+import type { Show } from '../../../contract/show.ts'
+import type { TvmazeSearchItem, TvmazeShow } from './types.ts'
 
 export function toShows(items: TvmazeSearchItem[]): Show[] {
   const seen = new Set<number>()
@@ -11,7 +12,7 @@ export function toShows(items: TvmazeSearchItem[]): Show[] {
   })
 }
 
-function toShow(raw: TvmazeShow): Show {
+export function toShow(raw: TvmazeShow): Show {
   return {
     id: raw.id,
     name: raw.name || '',
@@ -31,6 +32,5 @@ function toPoster(image: TvmazeShow['image']): Show['poster'] {
 }
 
 function htmlToText(html: string): string {
-  const text = new DOMParser().parseFromString(html, 'text/html').body.textContent
-  return text?.trim() ?? ''
+  return parse(html).text.trim()
 }

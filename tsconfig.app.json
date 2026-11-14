@@ -16,14 +16,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Aliases: one per shared layer of src/ */
+    /* Aliases: one per shared layer of src/, plus the contract with the server */
     "paths": {
       "@ui-kit/*": ["./src/ui-kit/*"],
       "@components/*": ["./src/components/*"],
       "@stores/*": ["./src/stores/*"],
       "@api/*": ["./src/api/*"],
       "@app-types/*": ["./src/types/*"],
-      "@locales/*": ["./src/locales/*"]
+      "@locales/*": ["./src/locales/*"],
+      "@contract/*": ["./contract/*"]
     },
 
     /* Linting */
@@ -32,5 +33,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "contract"]
 }

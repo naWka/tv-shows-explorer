@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import type { ApiErrorKind } from '@app-types/apiError'
+import type { ApiErrorKind } from '@contract/apiError'
 import { LiveStatus } from '@ui-kit/LiveStatus/LiveStatus'
 import { TvScreen } from './TvScreen/TvScreen'
 import { usePresenter } from './logic/usePresenter'

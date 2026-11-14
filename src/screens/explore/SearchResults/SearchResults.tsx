@@ -9,10 +9,12 @@ import { usePresenter } from './logic/usePresenter'
 
 type SearchResultsProps = {
   isLoading: boolean
+  onGenreSelect: (genre: string | null) => void
+  onPageSelect: (page: number) => void
 }
 
-export const SearchResults = observer(function SearchResults({ isLoading }: SearchResultsProps) {
-  const p = usePresenter(isLoading)
+export const SearchResults = observer(function SearchResults({ isLoading, onGenreSelect, onPageSelect }: SearchResultsProps) {
+  const p = usePresenter(isLoading, onGenreSelect, onPageSelect)
 
   return (
     <>

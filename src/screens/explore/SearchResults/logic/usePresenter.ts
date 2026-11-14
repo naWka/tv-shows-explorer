@@ -1,12 +1,18 @@
 import { useEffect, useRef } from 'react'
 import { texts } from '@locales/index'
 import { searchStore } from '@stores/searchStore/searchStore'
-import type { Show } from '@app-types/show'
+import type { ShowsPage } from '@contract/showsPage'
 
-const PAGE_SIZE = 3
+const NO_RESULT: ShowsPage = { shows: [], page: 1, pageCount: 0, offset: 0, found: 0, total: 0, genre: null, genres: [] }
 
-export function usePresenter(isLoading: boolean) {
-  const { shows, genre, page, resultId, isResultNew } = searchStore
+// Жанры, фильтр и страницы считает сервер: блок показывает пришедшую страницу и сообщает владельцу о кликах.
+export function usePresenter(
+  isLoading: boolean,
+  onGenreSelect: (genre: string | null) => void,
+  onPageSelect: (page: number) => void,
+) {
+  const { resultId, isResultNew } = searchStore
+  const { shows, page, pageCount, offset, found, total, genre, genres } = searchStore.result ?? NO_RESULT
   const listRef = useRef<HTMLUListElement>(null)
 
   // Страницу переключили внизу длинного списка (на телефоне): показываем начало новой страницы, а не её конец.
@@ -15,25 +21,22 @@ export function usePresenter(isLoading: boolean) {
     if (list && list.getBoundingClientRect().top < 0) list.scrollIntoView({ block: 'start' })
   }, [page])
 
-  // Шоу в сторе есть только после удачной выдачи. Пока ищется уточнённый запрос, они остаются на экране приглушёнными.
-  const hasResults = shows.length > 0
+  // Пока ищется уточнённый запрос, жанр или страница, прежние карточки остаются на экране приглушёнными.
+  const hasResults = total > 0
   const isStale = isLoading
-  const filtered = genre ? shows.filter((show) => show.genres.includes(genre)) : shows
-  const pageCount = Math.ceil(filtered.length / PAGE_SIZE)
-  const start = (page - 1) * PAGE_SIZE
   const canPrev = page > 1
   const canNext = page < pageCount
 
   return {
     hasResults,
     isStale,
-    announcement: describeAnnouncement(hasResults, isStale, filtered.length, page, pageCount),
+    announcement: describeAnnouncement(hasResults, isStale, found, page, pageCount),
 
-    genres: countGenres(shows).map((option) => ({ ...option, active: option.name === genre })),
-    allCount: shows.length,
+    genres: genres.map((option) => ({ ...option, active: option.name === genre })),
+    allCount: total,
     isAllActive: genre === null,
-    onGenreSelect: (name: string) => searchStore.setGenre(name === genre ? null : name),
-    onGenreReset: () => searchStore.setGenre(null),
+    onGenreSelect: (name: string) => onGenreSelect(name === genre ? null : name),
+    onGenreReset: () => onGenreSelect(null),
 
     // Ключ — номер выдачи и место на странице, а не шоу: при смене страницы карточки остаются и меняют содержимое,
     // поэтому анимация включения не повторяется. Она играет, только когда приходит новая выдача:
@@ -41,12 +44,12 @@ export function usePresenter(isLoading: boolean) {
     enter: isResultNew ? 'on' : 'off',
     listRef,
     // Точка переносится вместе со следующим жанром (неразрывный пробел после неё), а не висит в конце строки.
-    items: filtered.slice(start, start + PAGE_SIZE).map((show, index) => ({
+    items: shows.map((show, index) => ({
       key: `${resultId}-${index}`,
       show,
       title: show.name || texts.showCard.untitled,
-      number: String(start + index + 1).padStart(2, '0'),
-      meta: [show.year ?? texts.showCard.unknownYear, ...show.genres].join(' · '),
+      number: String(offset + index + 1).padStart(2, '0'),
+      meta: [show.year ?? texts.showCard.unknownYear, ...show.genres].join(' · '),
     })),
 
     pages: Array.from({ length: pageCount }, (_, index) => ({
@@ -57,9 +60,9 @@ export function usePresenter(isLoading: boolean) {
     hasPages: pageCount > 1,
     canPrev,
     canNext,
-    onPrev: () => canPrev && searchStore.setPage(page - 1),
-    onNext: () => canNext && searchStore.setPage(page + 1),
-    onPageSelect: (value: number) => searchStore.setPage(value),
+    onPrev: () => canPrev && onPageSelect(page - 1),
+    onNext: () => canNext && onPageSelect(page + 1),
+    onPageSelect,
   }
 }
 
@@ -67,16 +70,4 @@ function describeAnnouncement(hasResults: boolean, isStale: boolean, found: numb
   if (!hasResults) return ''
   if (isStale) return texts.searchResults.loadingSpoken
   return texts.searchResults.spoken(found, page, pageCount)
-}
-
-function countGenres(shows: Show[]) {
-  const counts = new Map<string, number>()
-
-  for (const show of shows) {
-    for (const name of show.genres) counts.set(name, (counts.get(name) ?? 0) + 1)
-  }
-
-  return [...counts]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
 }

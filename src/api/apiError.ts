@@ -1,4 +1,4 @@
-import type { ApiErrorKind } from '@app-types/apiError'
+import type { ApiErrorKind } from '@contract/apiError'
 
 export class ApiError extends Error {
   readonly kind: ApiErrorKind

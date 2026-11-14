@@ -1,14 +1,13 @@
 import { makeAutoObservable } from 'mobx'
-import type { Show } from '@app-types/show'
+import type { ShowsPage } from '@contract/showsPage'
 
 class SearchStore {
   query = ''
-  genre: string | null = null
-  page = 1
-  shows: Show[] = []
-  /** Запрос, по которому найдены shows. null — выдачи нет: ещё не искали, поле очистили или поиск не удался. */
+  /** Страница выдачи в том виде, как её прислал сервер. null — выдачи нет: ещё не искали, поле очистили или поиск не удался. */
+  result: ShowsPage | null = null
+  /** Запрос, по которому найдена result. */
   shownQuery: string | null = null
-  /** Номер выдачи: растёт с каждой пришедшей выдачей, по нему карточки новой выдачи включаются заново. */
+  /** Номер выдачи: растёт с каждой новой выдачей, по нему карточки включаются заново. */
   resultId = 0
   /** Выдача только что пришла, и её ещё не листали и не фильтровали: пока это так, карточки включаются с анимацией. */
   isResultNew = false
@@ -21,32 +20,19 @@ class SearchStore {
     this.query = query
   }
 
-  setGenre(genre: string | null) {
-    this.genre = genre
-    this.page = 1
-    this.isResultNew = false
-  }
+  // Новая выдача — та, что пришла по другому запросу. Другая страница или жанр того же запроса — та же выдача.
+  setResult(result: ShowsPage, query: string) {
+    const isNew = query !== this.shownQuery
 
-  setPage(page: number) {
-    this.page = page
-    this.isResultNew = false
-  }
-
-  // Жанр и страница сбрасываются, когда выдача сменилась.
-  setShows(shows: Show[], query: string) {
-    this.shows = shows
+    this.result = result
     this.shownQuery = query
-    this.genre = null
-    this.page = 1
-    this.isResultNew = true
-    this.resultId += 1
+    this.isResultNew = isNew
+    if (isNew) this.resultId += 1
   }
 
-  clearShows() {
-    this.shows = []
+  clearResult() {
+    this.result = null
     this.shownQuery = null
-    this.genre = null
-    this.page = 1
     this.isResultNew = false
   }
 }

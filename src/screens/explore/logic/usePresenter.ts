@@ -18,6 +18,8 @@ export function usePresenter() {
       searchStore.setQuery(value)
       showSearch.search(value)
     },
+    onGenreSelect: showSearch.selectGenre,
+    onPageSelect: showSearch.selectPage,
     onRetry: () => {
       showSearch.retry()
       inputRef.current?.focus()

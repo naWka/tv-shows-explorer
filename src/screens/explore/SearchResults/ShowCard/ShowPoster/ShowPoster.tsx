@@ -1,5 +1,5 @@
 import { texts } from '@locales/index'
-import type { Show } from '@app-types/show'
+import type { Show } from '@contract/show'
 import { Icon } from '@ui-kit/Icon/Icon'
 import { Image } from '@ui-kit/Image/Image'
 import { Text } from '@ui-kit/Text/Text'

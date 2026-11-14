@@ -26,7 +26,7 @@ export const Explore = observer(function Explore() {
 
       <main className={s.main}>
         <SearchState isLoading={p.isLoading} error={p.error} onRetry={p.onRetry} />
-        <SearchResults isLoading={p.isLoading} />
+        <SearchResults isLoading={p.isLoading} onGenreSelect={p.onGenreSelect} onPageSelect={p.onPageSelect} />
       </main>
     </div>
   )
