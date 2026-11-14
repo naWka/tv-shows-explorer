@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite'
 import { ru } from '@locales/ru'
-import { Brand } from './components/Brand/Brand'
-import { SearchInput } from './components/SearchInput/SearchInput'
-import { SearchResults } from './components/SearchResults/SearchResults'
-import { SearchState } from './components/SearchState/SearchState'
+import { Brand } from './Brand/Brand'
+import { SearchInput } from './SearchInput/SearchInput'
+import { SearchResults } from './SearchResults/SearchResults'
+import { SearchState } from './SearchState/SearchState'
 import s from './Explore.module.css'
-import { usePresenter } from './usePresenter'
+import { usePresenter } from './logic/usePresenter'
 
 export const Explore = observer(function Explore() {
   const p = usePresenter()

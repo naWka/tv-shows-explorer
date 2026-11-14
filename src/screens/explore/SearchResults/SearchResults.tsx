@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite'
 import { ru } from '@locales/ru'
 import { LiveStatus } from '@ui-kit/LiveStatus/LiveStatus'
-import { GenreFilter } from './components/GenreFilter/GenreFilter'
-import { Pagination } from './components/Pagination/Pagination'
-import { ShowCard } from './components/ShowCard/ShowCard'
+import { GenreFilter } from './GenreFilter/GenreFilter'
+import { Pagination } from './Pagination/Pagination'
+import { ShowCard } from './ShowCard/ShowCard'
 import s from './SearchResults.module.css'
-import { usePresenter } from './usePresenter'
+import { usePresenter } from './logic/usePresenter'
 
 export const SearchResults = observer(function SearchResults() {
   const p = usePresenter()

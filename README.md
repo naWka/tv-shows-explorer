@@ -21,14 +21,13 @@ src/
   screens/
     explore/                 единственный экран — поиск
       Explore.tsx            разметка экрана
-      usePresenter.ts        логика экрана
-      components/            блоки, нужные только этому экрану
-        Brand/
-        SearchInput/
-        SearchState/         заглушки: пусто, загрузка, ошибка, ничего не найдено
-          components/TvScreen/
-        SearchResults/       жанры, карточки, пагинация
-          components/GenreFilter/ Pagination/ ShowCard/
+      logic/usePresenter.ts  логика экрана
+      Brand/                 блоки, нужные только этому экрану
+      SearchInput/
+      SearchState/           заглушки: пусто, загрузка, ошибка, ничего не найдено
+        TvScreen/
+      SearchResults/         жанры, карточки, пагинация
+        GenreFilter/ Pagination/ ShowCard/
   stores/searchStore/        глобальный стор MobX: запрос, жанр, страница, результат поиска
   services/showSearch/       пауза во вводе, отмена устаревшего запроса, перевод ответа в Show
   api/tvmaze/                транспорт: URL, fetch, проверка ответа, типы TVmaze
@@ -38,8 +37,8 @@ src/
 scripts/                     проверки для npm run lint и ux-shots.mjs — снимки экрана для ревью удобства
 ```
 
-Компонент — папка `<Name>/` с `<Name>.tsx`, рядом `<Name>.module.css`, при логике `usePresenter.ts`, вложенные компоненты в его `components/`.
-Компонент лежит рядом с тем, кто его использует; общий для двух экранов переезжает в `src/components/`.
+Компонент — папка `<Name>/` с `<Name>.tsx`, рядом `<Name>.module.css`, при логике `logic/usePresenter.ts`, дочерние компоненты — папками тут же.
+Компонент лежит рядом с тем, кто его использует; нужный двум местам переезжает в `components/` их общей папки, двум экранам — в `src/components/`.
 
 ## Как идёт поиск
 

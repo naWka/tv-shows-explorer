@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import { LiveStatus } from '@ui-kit/LiveStatus/LiveStatus'
-import { TvScreen } from './components/TvScreen/TvScreen'
-import { usePresenter } from './usePresenter'
+import { TvScreen } from './TvScreen/TvScreen'
+import { usePresenter } from './logic/usePresenter'
 
 type SearchStateProps = {
   onRetry: () => void

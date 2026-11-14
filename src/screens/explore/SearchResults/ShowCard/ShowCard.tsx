@@ -3,7 +3,7 @@ import type { Show } from '@app-types/show'
 import { Icon } from '@ui-kit/Icon/Icon'
 import { Link } from '@ui-kit/Link/Link'
 import { Text } from '@ui-kit/Text/Text'
-import { ShowPoster } from './components/ShowPoster/ShowPoster'
+import { ShowPoster } from './ShowPoster/ShowPoster'
 import s from './ShowCard.module.css'
 
 type ShowCardProps = {
