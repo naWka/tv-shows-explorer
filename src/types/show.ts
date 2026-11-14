@@ -1,5 +1,6 @@
 export type Show = {
   id: number
+  /** Пустая строка, если у шоу нет названия. */
   name: string
   url: string
   genres: string[]

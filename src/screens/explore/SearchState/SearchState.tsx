@@ -1,14 +1,17 @@
 import { observer } from 'mobx-react-lite'
+import type { ApiErrorKind } from '@app-types/apiError'
 import { LiveStatus } from '@ui-kit/LiveStatus/LiveStatus'
 import { TvScreen } from './TvScreen/TvScreen'
 import { usePresenter } from './logic/usePresenter'
 
 type SearchStateProps = {
+  isLoading: boolean
+  error: ApiErrorKind | null
   onRetry: () => void
 }
 
-export const SearchState = observer(function SearchState({ onRetry }: SearchStateProps) {
-  const p = usePresenter()
+export const SearchState = observer(function SearchState({ isLoading, error, onRetry }: SearchStateProps) {
+  const p = usePresenter(isLoading, error)
 
   return (
     <>

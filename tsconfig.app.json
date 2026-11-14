@@ -21,7 +21,6 @@
       "@ui-kit/*": ["./src/ui-kit/*"],
       "@components/*": ["./src/components/*"],
       "@stores/*": ["./src/stores/*"],
-      "@services/*": ["./src/services/*"],
       "@api/*": ["./src/api/*"],
       "@app-types/*": ["./src/types/*"],
       "@locales/*": ["./src/locales/*"]

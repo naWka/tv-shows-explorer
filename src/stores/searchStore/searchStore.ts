@@ -1,14 +1,13 @@
 import { makeAutoObservable } from 'mobx'
 import type { Show } from '@app-types/show'
-import type { SearchStatus, ShowSearchResult } from '@app-types/showSearch'
 
 class SearchStore {
   query = ''
   genre: string | null = null
   page = 1
-  status: SearchStatus = 'idle'
   shows: Show[] = []
-  error: string | null = null
+  /** Запрос, по которому найдены shows. null — выдачи нет: ещё не искали, поле очистили или поиск не удался. */
+  shownQuery: string | null = null
   /** Номер выдачи: растёт с каждой пришедшей выдачей, по нему карточки новой выдачи включаются заново. */
   resultId = 0
   /** Выдача только что пришла, и её ещё не листали и не фильтровали: пока это так, карточки включаются с анимацией. */
@@ -33,17 +32,22 @@ class SearchStore {
     this.isResultNew = false
   }
 
-  // Пока идёт новый запрос, прежняя выдача остаётся на экране. Жанр и страница сбрасываются, когда выдача сменилась.
-  setSearchResult(result: ShowSearchResult) {
-    this.status = result.status
-    this.error = result.error
-    if (result.status === 'loading') return
-
-    this.shows = result.shows
+  // Жанр и страница сбрасываются, когда выдача сменилась.
+  setShows(shows: Show[], query: string) {
+    this.shows = shows
+    this.shownQuery = query
     this.genre = null
     this.page = 1
-    this.isResultNew = result.status === 'success'
-    if (result.status === 'success') this.resultId += 1
+    this.isResultNew = true
+    this.resultId += 1
+  }
+
+  clearShows() {
+    this.shows = []
+    this.shownQuery = null
+    this.genre = null
+    this.page = 1
+    this.isResultNew = false
   }
 }
 

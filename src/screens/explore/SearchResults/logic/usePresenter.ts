@@ -5,8 +5,8 @@ import type { Show } from '@app-types/show'
 
 const PAGE_SIZE = 3
 
-export function usePresenter() {
-  const { status, shows, genre, page, resultId, isResultNew } = searchStore
+export function usePresenter(isLoading: boolean) {
+  const { shows, genre, page, resultId, isResultNew } = searchStore
   const listRef = useRef<HTMLUListElement>(null)
 
   // Страницу переключили внизу длинного списка (на телефоне): показываем начало новой страницы, а не её конец.
@@ -17,7 +17,7 @@ export function usePresenter() {
 
   // Шоу в сторе есть только после удачной выдачи. Пока ищется уточнённый запрос, они остаются на экране приглушёнными.
   const hasResults = shows.length > 0
-  const isStale = status === 'loading'
+  const isStale = isLoading
   const filtered = genre ? shows.filter((show) => show.genres.includes(genre)) : shows
   const pageCount = Math.ceil(filtered.length / PAGE_SIZE)
   const start = (page - 1) * PAGE_SIZE
@@ -44,6 +44,7 @@ export function usePresenter() {
     items: filtered.slice(start, start + PAGE_SIZE).map((show, index) => ({
       key: `${resultId}-${index}`,
       show,
+      title: show.name || ru.showCard.untitled,
       number: String(start + index + 1).padStart(2, '0'),
       meta: [show.year ?? ru.showCard.unknownYear, ...show.genres].join(' · '),
     })),

@@ -7,8 +7,12 @@ import { ShowCard } from './ShowCard/ShowCard'
 import s from './SearchResults.module.css'
 import { usePresenter } from './logic/usePresenter'
 
-export const SearchResults = observer(function SearchResults() {
-  const p = usePresenter()
+type SearchResultsProps = {
+  isLoading: boolean
+}
+
+export const SearchResults = observer(function SearchResults({ isLoading }: SearchResultsProps) {
+  const p = usePresenter(isLoading)
 
   return (
     <>
@@ -28,7 +32,7 @@ export const SearchResults = observer(function SearchResults() {
           <ul ref={p.listRef} className={s.grid} data-enter={p.enter}>
             {p.items.map((item) => (
               <li key={item.key} className={s.cell}>
-                <ShowCard show={item.show} number={item.number} meta={item.meta} />
+                <ShowCard show={item.show} title={item.title} number={item.number} meta={item.meta} />
               </li>
             ))}
           </ul>

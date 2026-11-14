@@ -1,37 +1,25 @@
-import type { TvmazeSearchItem } from './types'
+import { ApiError } from '@api/apiError'
+import type { ApiErrorKind } from '@app-types/apiError'
 
 const BASE_URL = 'https://api.tvmaze.com'
 
-export type TvmazeErrorKind = 'network' | 'http' | 'parse'
-
-export class TvmazeError extends Error {
-  readonly kind: TvmazeErrorKind
-  readonly status: number | null
-
-  constructor(kind: TvmazeErrorKind, status: number | null = null) {
-    super(status === null ? `TVmaze ${kind}` : `TVmaze ${kind} ${status}`)
-    this.kind = kind
-    this.status = status
-  }
-}
-
-export async function fetchShowSearch(query: string, signal: AbortSignal): Promise<TvmazeSearchItem[]> {
-  const url = `${BASE_URL}/search/shows?q=${encodeURIComponent(query)}`
-  const response = await fetch(url, { signal }).catch((error: unknown) => {
-    throw signal.aborted ? error : new TvmazeError('network')
+// Транспорт: один GET к TVmaze. Что лежит в ответе, знает метод API, который его вызвал.
+export async function getJson(path: string, signal: AbortSignal): Promise<unknown> {
+  const response = await fetch(`${BASE_URL}${path}`, { signal }).catch((error: unknown) => {
+    throw signal.aborted ? error : new ApiError('network')
   })
 
   if (!response.ok) {
-    throw new TvmazeError('http', response.status)
+    throw new ApiError(toErrorKind(response.status))
   }
 
-  const data: unknown = await response.json().catch((error: unknown) => {
-    throw signal.aborted ? error : new TvmazeError('parse')
+  return response.json().catch((error: unknown) => {
+    throw signal.aborted ? error : new ApiError('unreadable')
   })
+}
 
-  if (!Array.isArray(data)) {
-    throw new TvmazeError('parse')
-  }
-
-  return data as TvmazeSearchItem[]
+function toErrorKind(status: number): ApiErrorKind {
+  if (status === 429) return 'tooManyRequests'
+  if (status >= 500) return 'serverDown'
+  return 'failed'
 }

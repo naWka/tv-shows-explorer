@@ -8,17 +8,18 @@ import s from './ShowCard.module.css'
 
 type ShowCardProps = {
   show: Show
+  title: string
   number: string
   meta: string
 }
 
-export function ShowCard({ show, number, meta }: ShowCardProps) {
+export function ShowCard({ show, title, number, meta }: ShowCardProps) {
   return (
     <article className={s.card}>
       <div className={s.body}>
         <Text as="h2" variant="title" lines={2}>
           <Link variant="stretched" href={show.url} target="_blank" spoken={ru.showCard.sourceSpoken}>
-            {show.name}
+            {title}
           </Link>
         </Text>
         <Text variant="caption" tone="muted" lines={2}>

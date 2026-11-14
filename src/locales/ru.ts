@@ -9,7 +9,17 @@ export const ru = {
   searchState: {
     idle: { title: 'Ждём сигнал', text: 'Начните вводить название — эфир включится сам' },
     loading: { title: 'Ловим сигнал…', spoken: 'Ищем шоу…' },
-    error: { title: 'Нет сигнала', retry: 'Попробовать ещё раз' },
+    error: {
+      title: 'Нет сигнала',
+      retry: 'Попробовать ещё раз',
+      reasons: {
+        unreadable: 'TVmaze прислал непонятный ответ. Попробуйте ещё раз.',
+        network: 'Нет связи с TVmaze. Проверьте интернет и попробуйте ещё раз.',
+        tooManyRequests: 'TVmaze просит передышку: слишком много запросов. Подождите минуту.',
+        serverDown: 'TVmaze сейчас не отвечает. Попробуйте чуть позже.',
+        failed: 'TVmaze не смог выполнить поиск. Попробуйте изменить запрос.',
+      },
+    },
     empty: {
       title: 'Пустой эфир',
       text: (query: string) => `По запросу «${query}» ничего не нашлось`,
@@ -33,6 +43,7 @@ export const ru = {
     page: (page: number) => `Страница ${page}`,
   },
   showCard: {
+    untitled: 'Без названия',
     noSummary: 'Описания пока нет.',
     unknownYear: 'Год неизвестен',
     source: 'TVmaze',
@@ -40,15 +51,5 @@ export const ru = {
   },
   showPoster: {
     noPoster: 'Нет постера',
-  },
-  showSearch: {
-    untitled: 'Без названия',
-    errors: {
-      unreadable: 'TVmaze прислал непонятный ответ. Попробуйте ещё раз.',
-      network: 'Нет связи с TVmaze. Проверьте интернет и попробуйте ещё раз.',
-      tooManyRequests: 'TVmaze просит передышку: слишком много запросов. Подождите минуту.',
-      serverDown: 'TVmaze сейчас не отвечает. Попробуйте чуть позже.',
-      failed: 'TVmaze не смог выполнить поиск. Попробуйте изменить запрос.',
-    },
   },
 }

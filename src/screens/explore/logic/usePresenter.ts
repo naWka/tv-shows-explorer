@@ -1,29 +1,25 @@
-import { useEffect, useRef } from 'react'
-import { createShowSearch, type ShowSearch } from '@services/showSearch/showSearch'
+import { useRef } from 'react'
 import { searchStore } from '@stores/searchStore/searchStore'
+import { useShowSearch } from './useShowSearch'
 
 const QUERY_MAX_LENGTH = 100
 
 export function usePresenter() {
-  const serviceRef = useRef<ShowSearch | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    const service = createShowSearch((result) => searchStore.setSearchResult(result))
-    serviceRef.current = service
-    return () => service.dispose()
-  }, [])
+  const showSearch = useShowSearch()
 
   return {
     query: searchStore.query,
     queryMaxLength: QUERY_MAX_LENGTH,
     inputRef,
+    isLoading: showSearch.isLoading,
+    error: showSearch.error,
     onQueryChange: (value: string) => {
       searchStore.setQuery(value)
-      serviceRef.current?.search(value)
+      showSearch.search(value)
     },
     onRetry: () => {
-      serviceRef.current?.retry()
+      showSearch.retry()
       inputRef.current?.focus()
     },
   }

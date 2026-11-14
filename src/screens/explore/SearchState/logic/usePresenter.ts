@@ -1,6 +1,6 @@
 import { ru } from '@locales/ru'
 import { searchStore } from '@stores/searchStore/searchStore'
-import type { SearchStatus } from '@app-types/showSearch'
+import type { ApiErrorKind } from '@app-types/apiError'
 
 type Screen = {
   variant: 'idle' | 'static' | 'bars'
@@ -10,9 +10,9 @@ type Screen = {
   spoken: string
 }
 
-export function usePresenter() {
-  const { query, status, shows, error } = searchStore
-  const screen = describeScreen({ status, query, found: shows.length, error })
+export function usePresenter(isLoading: boolean, error: ApiErrorKind | null) {
+  const { query, shows, shownQuery } = searchStore
+  const screen = describeScreen({ isLoading, error, query, found: shows.length, hasResult: shownQuery !== null })
 
   return {
     screen,
@@ -21,23 +21,25 @@ export function usePresenter() {
 }
 
 type ScreenFacts = {
-  status: SearchStatus
+  isLoading: boolean
+  error: ApiErrorKind | null
   query: string
   found: number
-  error: string | null
+  hasResult: boolean
 }
 
-function describeScreen({ status, query, found, error }: ScreenFacts): Screen | null {
+function describeScreen({ isLoading, error, query, found, hasResult }: ScreenFacts): Screen | null {
   const t = ru.searchState
 
-  if (status === 'idle') return { variant: 'idle', title: t.idle.title, text: t.idle.text, spoken: '' }
   // Если на экране прежняя выдача, загрузку показывает она сама, приглушаясь.
-  if (status === 'loading') {
+  if (isLoading) {
     return found > 0 ? null : { variant: 'static', title: t.loading.title, spoken: t.loading.spoken }
   }
-  if (status === 'error') {
-    return { variant: 'bars', title: t.error.title, text: error ?? '', actionLabel: t.error.retry, spoken: error ?? '' }
+  if (error) {
+    const text = t.error.reasons[error]
+    return { variant: 'bars', title: t.error.title, text, actionLabel: t.error.retry, spoken: text }
   }
+  if (!hasResult) return { variant: 'idle', title: t.idle.title, text: t.idle.text, spoken: '' }
   if (found === 0) return { variant: 'idle', title: t.empty.title, text: t.empty.text(query), spoken: t.empty.spoken }
   return null
 }

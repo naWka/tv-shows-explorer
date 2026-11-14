@@ -1,9 +1,4 @@
-import type { Show } from './show'
+import type { ApiErrorKind } from './apiError'
 
-export type SearchStatus = 'idle' | 'loading' | 'success' | 'error'
-
-export type ShowSearchResult = {
-  status: SearchStatus
-  shows: Show[]
-  error: string | null
-}
+/** Исход таски searchShows. cancelled — запрос оборвали раньше ответа, стор не тронут. */
+export type ShowSearchOutcome = { status: 'success' | 'cancelled' } | { status: 'error'; error: ApiErrorKind }

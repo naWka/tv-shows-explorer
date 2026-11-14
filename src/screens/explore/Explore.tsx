@@ -25,8 +25,8 @@ export const Explore = observer(function Explore() {
       </header>
 
       <main className={s.main}>
-        <SearchState onRetry={p.onRetry} />
-        <SearchResults />
+        <SearchState isLoading={p.isLoading} error={p.error} onRetry={p.onRetry} />
+        <SearchResults isLoading={p.isLoading} />
       </main>
     </div>
   )
