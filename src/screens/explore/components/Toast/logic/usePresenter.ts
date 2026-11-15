@@ -11,7 +11,7 @@ export function usePresenter() {
   useEffect(() => {
     if (text === null) return
 
-    const timer = setTimeout(() => toastStore.hide(), VISIBLE_MS)
+    const timer = setTimeout(() => toastStore.setText(null), VISIBLE_MS)
     return () => clearTimeout(timer)
   }, [id, text])
 

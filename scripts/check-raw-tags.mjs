@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, sep } from 'node:path'
 
-// Вне ui-kit текст, кнопки, поля, ссылки, картинки и иконки — только через атомы (первое правило).
+// Вне ui-kit текст, кнопки, поля, ссылки, картинки и иконки — только через атомы (ARCHITECTURE.md, «ui-kit и стили»).
 const RAW_TAG = /<(p|h[1-6]|span|em|strong|a|button|input|img|svg)[\s>/]/g
 const ROOT = 'src'
 const UI_KIT = join(ROOT, 'ui-kit') + sep

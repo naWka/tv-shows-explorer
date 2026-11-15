@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { texts } from '@locales/index'
 import { favoritesStore } from '@stores/favoritesStore/favoritesStore'
-import { toastStore } from '@stores/toastStore/toastStore'
 import type { Show } from '@contract/show'
 import { loadFavorites } from '../../logic/tasks/loadFavorites'
+import { showToast } from '../../logic/tasks/showToast'
 import { useFavoriteToggle } from '../../logic/useFavoriteToggle'
 
 export function usePresenter() {
@@ -14,7 +14,7 @@ export function usePresenter() {
   // Избранное живёт на сервере: забираем его, когда блок появился на экране.
   useEffect(() => {
     void loadFavorites().then((outcome) => {
-      if (outcome.status === 'error') toastStore.show(texts.favorites.loadFailed)
+      if (outcome.status === 'error') showToast(texts.favorites.loadFailed)
     })
   }, [])
 

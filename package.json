@@ -8,7 +8,7 @@
     "dev:site": "vite",
     "dev:server": "node --watch server/listen.ts",
     "build": "tsc -b && vite build",
-    "lint": "oxlint && node scripts/check-css-lines.mjs && node scripts/check-raw-tags.mjs",
+    "lint": "oxlint && node scripts/check-lines.mjs && node scripts/check-raw-tags.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

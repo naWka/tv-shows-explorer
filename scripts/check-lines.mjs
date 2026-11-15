@@ -12,7 +12,8 @@ function findCssFiles(dir) {
   })
 }
 
-const tooLong = findCssFiles(ROOT)
+// Файлы, которые oxlint не считает: стили и правила архитектуры.
+const tooLong = [...findCssFiles(ROOT), 'ARCHITECTURE.md']
   .map((path) => ({ path, lines: readFileSync(path, 'utf8').trimEnd().split('\n').length }))
   .filter(({ lines }) => lines > MAX_LINES)
 

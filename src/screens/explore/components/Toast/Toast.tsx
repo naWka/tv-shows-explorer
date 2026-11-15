@@ -5,7 +5,8 @@ import { Text } from '@ui-kit/Text/Text'
 import s from './Toast.module.css'
 import { usePresenter } from './logic/usePresenter'
 
-// Стоит на экране и в панели избранного. Пока панель открыта, сообщение показывает она, а сообщение экрана скрыто.
+// Стоит на экране и в панели избранного. Открытая панель прячет экран от скринридера, поэтому сообщение показывает
+// она, а сообщение экрана на это время скрыто стилями: видно и слышно всегда одно.
 export const Toast = observer(function Toast() {
   const p = usePresenter()
 

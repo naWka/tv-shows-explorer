@@ -6,6 +6,7 @@ export const ru = {
     searchLabel: 'Поиск шоу',
     searchPlaceholder: 'Murder, Office, Lost…',
   },
+  // title и text видны на экране, spoken слышит скринридер. Лежат рядом: меняя экран, сразу видишь, что прозвучит.
   searchState: {
     idle: { title: 'Ждём сигнал', text: 'Начните вводить название — эфир включится сам' },
     loading: { title: 'Ловим сигнал…', spoken: 'Ищем шоу…' },

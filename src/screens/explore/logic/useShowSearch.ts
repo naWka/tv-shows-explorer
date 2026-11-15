@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { searchStore } from '@stores/searchStore/searchStore'
 import type { ApiErrorKind } from '@contract/apiError'
 import type { ShowSearchRequest } from '@app-types/showSearch'
+import { clearSearch } from './tasks/clearSearch'
 import { searchShows } from './tasks/searchShows'
 
-// Столько ждём после последней буквы. Хватает, чтобы рукой стереть букву и вернуть её без лишнего запроса.
+// Столько ждём после последней буквы. Хватает, чтобы рукой стереть букву и вернуть её без лишнего запроса:
+// при 0,4 с не успевали, запрос уходил, и выбранный жанр сбрасывался. Клик по жанру и странице уходит сразу.
 const TYPING_PAUSE_MS = 700
 
 // Единственный хозяин запросов поиска: ввод, жанр, страница, повтор. Ждёт паузу во вводе, обрывает устаревший запрос,
@@ -68,7 +70,7 @@ export function useShowSearch() {
       cancel()
 
       if (!query) {
-        searchStore.clearResult()
+        clearSearch()
         setIsLoading(false)
         setError(null)
         return
@@ -79,6 +81,7 @@ export function useShowSearch() {
       // только новая выдача.
       if (query === searchStore.shownQuery && !isLoading) return
 
+      // После пустой выдачи шлём как обычно: TVmaze ищет по целым словам, «girls t» даёт 0, а «girls trip» — 3 шоу.
       const request = { query, genre: null, page: 1 }
       pending.current = request
       timer.current = setTimeout(() => void run(request), TYPING_PAUSE_MS)

@@ -10,6 +10,7 @@ import s from './Favorites.module.css'
 import { usePresenter } from './logic/usePresenter'
 
 // Кнопка со счётчиком избранного и панель со списком, которую она открывает.
+// Панель поверх экрана, а не отдельный экран с роутером: закрыл — вернулся к той же выдаче, жанру и странице.
 export const Favorites = observer(function Favorites() {
   const p = usePresenter()
 

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { texts } from '@locales/index'
 import { favoritesStore } from '@stores/favoritesStore/favoritesStore'
-import { toastStore } from '@stores/toastStore/toastStore'
 import type { Show } from '@contract/show'
 import { addFavorite } from './tasks/addFavorite'
 import { removeFavorite } from './tasks/removeFavorite'
+import { showToast } from './tasks/showToast'
 
 // Звёздочка шоу для презентеров выдачи и панели избранного: горит ли она, идёт ли запрос и что сделать по нажатию.
 export function useFavoriteToggle() {
@@ -33,8 +33,8 @@ export function useFavoriteToggle() {
 
       const title = show.name || texts.showCard.untitled
       const toast = texts.favoriteToggle.toast
-      if (outcome.status === 'error') toastStore.show(wasFavorite ? toast.removeFailed(title) : toast.addFailed(title))
-      else toastStore.show(wasFavorite ? toast.removed(title) : toast.added(title))
+      if (outcome.status === 'error') showToast(wasFavorite ? toast.removeFailed(title) : toast.addFailed(title))
+      else showToast(wasFavorite ? toast.removed(title) : toast.added(title))
     },
   }
 }
