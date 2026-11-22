@@ -2,10 +2,10 @@
 
 Universal rules: no screens, data or libraries of any one project. Three levels of rules:
 
-- **Core** — `sa-*.md`: true for any project. This file is always loaded; each layer's file loads
+- Core — `sa-*.md`: true for any project. This file is always loaded; each layer's file loads
   with that layer's files (`sa-view`, `sa-presenter`, `sa-task`, `sa-store`, `sa-api`).
-- **Platform** — `platform-*.md`: true for any project on that platform (web, own server).
-- **Project** — the project section of `CLAUDE.md`: which library, folder, alias or deploy carries a
+- Platform — `platform-*.md`: true for any project on that platform (web, own server).
+- Project — the project section of `CLAUDE.md`: which library, folder, alias or deploy carries a
   rule out here. Feature decisions — in a comment next to the code that carries them out.
 
 ## Layers: who calls whom
