@@ -38,32 +38,32 @@ TVmaze:
 ## Как работаем
 
 - Код и правила пишет Claude. Павел принимает архитектурные решения и ревьюит.
-- Нужно архитектурное решение, которого нет в `ARCHITECTURE.md` → сначала спросить Павла: один вопрос, 2–3 варианта и цена каждого на примере этого проекта. Свою рекомендацию не давать, пока он не попросит.
-- Каждое решение Павла записываем в одно из трёх мест, коротко, проверяемо и с «почему»:
-  - верно для любого проекта (кто кого вызывает, где что лежит) → правило в `ARCHITECTURE.md`, без имён этого проекта;
-  - чем правило исполнено здесь (библиотека, алиас, деплой) → «Как архитектура исполнена здесь» ниже;
+- Нужно архитектурное решение, которого нет в правилах (`.claude/rules/` и раздел «Project» ниже) → сначала спросить Павла: один вопрос, 2–3 варианта и цена каждого на примере этого проекта. Свою рекомендацию не давать, пока он не попросит.
+- Каждое решение Павла записываем в одно из четырёх мест, коротко, проверяемо и с «почему»; правила — по-английски:
+  - верно для любого проекта (кто кого вызывает, где что лежит) → ядро, `.claude/rules/sa-*.md` того слоя, без имён этого проекта и библиотек;
+  - верно для любого проекта на этой платформе (веб, свой сервер) → `.claude/rules/platform-*.md`;
+  - чем правило исполнено здесь (библиотека, папка, алиас, деплой) → раздел «Project» ниже;
   - решение по фиче (пауза во вводе 0,7 с, избранное одно на всех) → комментарий у кода, который его исполняет.
 
-  *Почему:* в одном файле правила росли с каждой домашкой: за две недели набралось 31 правило на 169 строк. Теперь новая фича не удлиняет правила, а `ARCHITECTURE.md` можно унести в другой проект.
+  *Почему:* в одном файле правила росли с каждой домашкой: за две недели набралось 31 правило на 169 строк. Теперь новая фича не удлиняет правила. 22.11: ядро и файл платформы копируются в insense-mobile и insense-mobile-client без правок, поэтому они по-английски и по файлу на слой — каждый грузится только к своим файлам.
 - Правило мешает, неясно или противоречит коду → не обходить молча, сказать Павлу.
 - После каждого куска кода: что сделано, какие правила применены, где правил не хватило.
 - После каждой правки интерфейса, до коммита — агент `ux-reviewer` (`.claude/agents/ux-reviewer.md`): снимает экран на десяти размерах окна (`scripts/ux-shots.mjs`) и пишет замечания по удобству. Блокеры и «мешает» исправляем и снимаем заново; коммитим, когда осталась только косметика или ничего.
   *Почему:* правка, проверенная на одном размере окна, ломала другой: на ноутбуке переключатель страниц ушёл за край экрана.
 - Новые зависимости для запросов и состояния (TanStack Query, SWR, Redux и т. п.) — только с согласия Павла.
 
-## Как архитектура исполнена здесь
+## Project: how Simple Architecture is carried out here
 
-- **Сторы — MobX:** класс с `makeAutoObservable(this)` в конструкторе, без декораторов. View, который вызывает `usePresenter()`, обёрнут в `observer` из `mobx-react-lite`, иначе он не узнает об изменениях стора.
-- **Стили — CSS Modules:** `<Name>/<Name>.module.css`, импорт `import s from './<Name>.module.css'`. Глобальные — `src/styles/tokens.css` и `global.css`.
-- **Алиасы:** `@ui-kit/`, `@components/`, `@stores/`, `@api/`, `@app-types/` (папка `types/`: имя `@types` занято npm-пакетами), `@locales/`, `@contract/`. Заданы в `paths` в `tsconfig.app.json`, Vite читает их оттуда (`resolve.tsconfigPaths`); новый слой в `src/` — новая строка в `paths`.
-- **В коде сервера импорты только относительные и с расширением `.ts`.** Vercel не раскрывает алиасы из `tsconfig` в серверном коде: функция с алиасом падает на первом же запросе.
-- **Сервер — одно приложение Express,** Vercel запускает его одной функцией через `api/index.ts`, в котором только реэкспорт. Отдельных файлов-функций на маршрут нет: у одной функции одна память, поиск и избранное видят одни и те же `cache` и `favorite`.
-- **Сайт и сервер — один проект на Vercel с одним адресом.** Сайт ходит на сервер по относительному пути `/api/…`, полного адреса и настроек CORS в коде нет; push в `main` выкатывает оба. Локально сервер запускает Node (`node --watch`), сайт ходит к нему через прокси Vite.
-- **В коде вне `locales/` нет русских слов,** кроме комментариев, названия приложения и значков (`№`, `★`, `CH`).
-- **`npm run lint` проверяет:** 120 строк в `.ts`/`.tsx` (`max-lines` в oxlint), в `.css` и в `ARCHITECTURE.md` (`scripts/check-lines.mjs`); теги вне ui-kit (`scripts/check-raw-tags.mjs`).
+The project level of the rules (core — `.claude/rules/sa-*.md`, platform — `.claude/rules/platform-*.md`).
 
-## Архитектура
-
-Универсальные правила кода — в отдельном файле, грузятся вместе с этим:
-
-@ARCHITECTURE.md
+- **Folders.** Screens — `src/screens/<name>/`. A component's logic sits in its `logic/`: `usePresenter.ts`, hooks `use<Name>.ts`, tasks `tasks/<verb>.ts`; `logic/` appears with the first logic file. Stores — `src/stores/<name>/<name>.ts`; API methods — `src/api/<entity>/<method>.ts`, transport — `src/api/client.ts`, the API error — `ApiError`; own types — `src/types/`; types shared with the server — `contract/`.
+- **Texts** — `src/locales/<language>.ts`, code takes them through `texts` from `locales/index.ts`.
+- **Temporary: the presenter aborts a stale request.** It creates an `AbortController` and passes `signal` to the task, the task passes it to the API method. Who should abort is to be decided after homework 2.
+- **Stores — MobX:** a class with `makeAutoObservable(this)` in the constructor, no decorators. A view that calls `usePresenter()` is wrapped in `observer` from `mobx-react-lite`, otherwise it does not learn about store changes.
+- **Styles — CSS Modules:** `<Name>/<Name>.module.css`, imported as `import s from './<Name>.module.css'`. Global ones — `src/styles/tokens.css` (tokens) and `global.css` (reset).
+- **Aliases:** `@ui-kit/`, `@components/`, `@stores/`, `@api/`, `@app-types/` (the `types/` folder: the name `@types` is taken by npm packages), `@locales/`, `@contract/`. Set in `paths` in `tsconfig.app.json`, Vite reads them from there (`resolve.tsconfigPaths`); a new layer in `src/` is a new line in `paths`.
+- **Server code imports only by relative paths with the `.ts` extension.** Vercel does not resolve `tsconfig` aliases in server code: a function with an alias fails on its first request.
+- **The server is one Express app;** Vercel runs it as one function through `api/index.ts`, which holds only a re-export. No separate function files per route: one function has one memory, so search and favorites see the same `cache` and `favorite`.
+- **Site and server are one Vercel project with one address.** The site calls the server by the relative path `/api/…`; no full address and no CORS settings in code; a push to `main` deploys both. Locally Node runs the server (`node --watch`), and the site reaches it through the Vite proxy.
+- **No Russian words in code outside `locales/`,** except comments, the app name and symbols (`№`, `★`, `CH`).
+- **`npm run lint` checks:** 120 lines in `.ts`/`.tsx` (`max-lines` in oxlint), in `.css` and in `.claude/rules/*.md` (`scripts/check-lines.mjs`); tags outside ui-kit (`scripts/check-raw-tags.mjs`).

@@ -12,8 +12,11 @@ function findCssFiles(dir) {
   })
 }
 
+const RULES = '.claude/rules'
+const ruleFiles = readdirSync(RULES).filter((name) => name.endsWith('.md')).map((name) => join(RULES, name))
+
 // Файлы, которые oxlint не считает: стили и правила архитектуры.
-const tooLong = [...findCssFiles(ROOT), 'ARCHITECTURE.md']
+const tooLong = [...findCssFiles(ROOT), ...ruleFiles]
   .map((path) => ({ path, lines: readFileSync(path, 'utf8').trimEnd().split('\n').length }))
   .filter(({ lines }) => lines > MAX_LINES)
 

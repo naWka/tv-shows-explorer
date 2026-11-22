@@ -77,4 +77,4 @@ View — только разметка. Презентер вызывает та
 
 Слои сайта импортируются через алиасы: `@ui-kit/`, `@stores/`, `@api/`, `@app-types/`, `@locales/`, `@contract/`. В коде сервера импорты только относительные.
 
-Все правила с объяснениями — в [ARCHITECTURE.md](ARCHITECTURE.md).
+Все правила с объяснениями — в [.claude/rules/](.claude/rules/), по-английски, в три уровня: ядро Simple Architecture для любого проекта (`sa-*.md`, по файлу на слой), платформа (`platform-web.md`, `platform-server.md`) и проект — раздел «Project» в [CLAUDE.md](CLAUDE.md).
