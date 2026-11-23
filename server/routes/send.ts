@@ -2,13 +2,14 @@ import type { Response } from 'express'
 import type { ApiErrorBody, ApiErrorKind } from '../../contract/apiError.ts'
 import type { Outcome } from '../types/outcome.ts'
 
-// Каким кодом ответить на причину ошибки. 502 — подвёл TVmaze, а не наш сервер.
+// Каким кодом ответить на причину ошибки. 502 — подвёл TVmaze, а не наш сервер. 401 — сервер не знает, кто зовёт.
 const STATUS: Record<ApiErrorKind, number> = {
   network: 502,
   serverDown: 502,
   unreadable: 502,
   failed: 502,
   tooManyRequests: 429,
+  unauthorized: 401,
 }
 
 /** Ответ по исходу таски: данные или причина ошибки с её кодом. */

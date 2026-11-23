@@ -1,0 +1,12 @@
+.account {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Длинный email обрезается многоточием, кнопка выхода остаётся на месте. */
+.email {
+  min-width: 0;
+  color: var(--c-muted);
+}

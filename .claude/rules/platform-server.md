@@ -15,3 +15,8 @@ Simple Architecture on a site with its own server in one repository. The core is
   of `req`, `res` and `fetch`. `api/<service>/` hides a foreign API's format. `stores/` — data and the
   functions over it; nobody touches the data directly. *Why:* the same words on the site and on the
   server, and the business logic does not depend on the framework.
+- **Who is calling: the route takes the token out of the request, the task finds the user.** The route
+  passes the token as an argument (`addFavorite(token, showId)`); the task looks up the session in its
+  store and, if there is none, returns the `unauthorized` reason, which the route answers with 401. No
+  middleware that reads stores past a task. *Why:* the chain stays route → task → stores, and who may
+  do what is decided by a task, not by the framework.

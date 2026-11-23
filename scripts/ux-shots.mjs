@@ -1,6 +1,7 @@
-// Снимки экрана поиска для ревью удобства: поднимает сервер и Vite, открывает приложение в Chrome на разных размерах окна,
-// вводит запрос, снимает видимую часть окна (то, что человек видит без прокрутки), добавляет шоу в избранное,
-// открывает панель избранного и переключает страницу. Порт 3001 должен быть свободен: остановите npm run dev.
+// Снимки экранов входа и поиска для ревью удобства: поднимает сервер и Vite, открывает приложение в Chrome на разных
+// размерах окна, входит по email, вводит запрос, снимает видимую часть окна (то, что человек видит без прокрутки),
+// добавляет шоу в избранное, открывает панель избранного, переключает страницу, выходит и жмёт звёздочку гостем.
+// Порт 3001 должен быть свободен: остановите npm run dev.
 // Рядом со снимками пишет report.json: что из главного видно без прокрутки и не обрезан ли постер.
 //
 //   node scripts/ux-shots.mjs --out /tmp/ux [--query 21 --query office]
@@ -12,6 +13,7 @@ import { parseArgs } from 'node:util'
 import { chromium } from 'playwright-core'
 import { createServer } from 'vite'
 import app from '../server/app.ts'
+import { ru as texts } from '../src/locales/ru.ts'
 import { measure } from './ux-measure.mjs'
 
 const VIEWPORTS = [
@@ -32,6 +34,9 @@ const { values } = parseArgs({
 })
 if (!values.out) throw new Error('Нужен --out <папка для снимков>')
 const queries = values.query ?? ['21', 'office']
+// Длинный адрес: в шапке он должен обрезаться, а не выталкивать «Выйти» и избранное за край окна.
+const EMAIL = 'konstantin.konstantinopolsky@example.com'
+const LABELS = { favorites: texts.favorites.open, logOut: texts.account.logOut }
 mkdirSync(values.out, { recursive: true })
 
 const api = app.listen(3001)
@@ -50,23 +55,29 @@ const report = []
 for (const query of queries) {
   for (const [name, width, height] of VIEWPORTS) {
     const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 2 })
-    await page.goto(url)
+    await page.goto(`${url}login`)
     // На телефоне полоса прокрутки всегда поверх страницы, классическая — только в окнах компьютера.
     if (!name.startsWith('phone')) await page.addStyleTag({ content: CLASSIC_SCROLLBAR })
+    // Страница входа от запроса не зависит: снимаем её один раз на размер окна.
+    const login = query === queries[0] ? join(values.out, `${name}-login.png`) : undefined
+    if (login) await page.screenshot({ path: login })
+    await page.locator('input[type="email"]').fill(EMAIL)
+    await page.locator('form button').click()
+    await page.waitForURL(url)
     await page.locator('input').fill(query)
     await page.waitForSelector('article, [role="status"]:not(:empty)', { timeout: 15000 }).catch(() => {})
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(1500)
     const file = join(values.out, `${query}-${name}.png`)
     await page.screenshot({ path: file })
-    const entry = { query, viewport: name, file, ...(await page.evaluate(measure)) }
+    const entry = { query, viewport: name, file, login, ...(await page.evaluate(measure, LABELS)) }
 
     // Звёздочка первой карточки: на снимке сообщение и счётчик. Потом панель избранного, и шоу убираем обратно.
     await page.locator('main article button').first().click()
     await page.waitForTimeout(600)
     entry.starred = join(values.out, `${query}-${name}-starred.png`)
     await page.screenshot({ path: entry.starred })
-    await page.locator('header button').first().click()
+    await page.locator('header button', { hasText: LABELS.favorites }).click()
     await page.waitForTimeout(700)
     entry.favorites = join(values.out, `${query}-${name}-favorites.png`)
     await page.screenshot({ path: entry.favorites })
@@ -81,6 +92,13 @@ for (const query of queries) {
       entry.page2 = join(values.out, `${query}-${name}-page2.png`)
       await page.screenshot({ path: entry.page2 })
     }
+
+    // Выход: в шапке снова «Войти», звёздочка гостя показывает сообщение с кнопкой «Войти».
+    await page.locator('header button', { hasText: LABELS.logOut }).click()
+    await page.locator('main article button').first().click()
+    await page.waitForTimeout(600)
+    entry.guestStar = join(values.out, `${query}-${name}-guest-star.png`)
+    await page.screenshot({ path: entry.guestStar })
     report.push(entry)
     await page.close()
   }
@@ -95,6 +113,8 @@ for (const e of report) {
   const posters = e.cards.map((c) => `${c.poster}${c.posterInView === false ? ', ниже края окна' : ''}`).join('; ')
   const pager = typeof e.pager === 'string' ? e.pager : e.pager.inView ? 'видна' : `за краем (top ${e.pager.top})`
   const sideways = e.horizontalScroll ? '; ЕСТЬ ГОРИЗОНТАЛЬНАЯ ПРОКРУТКА' : ''
-  console.log(`${e.query} ${e.viewport}: страницы ${pager}; постеры: ${posters}${sideways}`)
+  const header = [!e.favoritesInView && 'ИЗБРАННОЕ', !e.logOutInView && '«ВЫЙТИ»'].filter(Boolean)
+  const offHeader = header.length ? `; ЗА КРАЕМ ОКНА: ${header.join(', ')}` : ''
+  console.log(`${e.query} ${e.viewport}: страницы ${pager}; постеры: ${posters}${sideways}${offHeader}`)
 }
 console.log(`Снимки и report.json: ${values.out}`)

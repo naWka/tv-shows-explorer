@@ -7,7 +7,7 @@
   z-index: 10;
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
   max-width: 360px;
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--c-amber);
@@ -18,6 +18,19 @@
     0 18px 40px -18px var(--c-shade-deep);
   pointer-events: none;
   animation: toast-in 0.3s var(--ease-out-expo) both;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Само сообщение пропускает клики к странице под ним, а кнопка в нём нажимается. */
+.action {
+  flex: none;
+  pointer-events: auto;
 }
 
 @keyframes toast-in {

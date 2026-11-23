@@ -20,6 +20,7 @@
     "paths": {
       "@ui-kit/*": ["./src/ui-kit/*"],
       "@components/*": ["./src/components/*"],
+      "@tasks/*": ["./src/tasks/*"],
       "@stores/*": ["./src/stores/*"],
       "@api/*": ["./src/api/*"],
       "@app-types/*": ["./src/types/*"],

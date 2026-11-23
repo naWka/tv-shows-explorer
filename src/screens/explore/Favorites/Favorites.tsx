@@ -44,11 +44,16 @@ export const Favorites = observer(function Favorites() {
           {p.isEmpty ? (
             <div className={s.empty}>
               <Text variant="headline" tone="muted">
-                {texts.favorites.empty.title}
+                {p.emptyTitle}
               </Text>
               <Text variant="body" tone="muted">
-                {texts.favorites.empty.text}
+                {p.emptyText}
               </Text>
+              {p.isGuest && (
+                <Button variant="outline" onClick={p.onLogIn}>
+                  {texts.favorites.logIn}
+                </Button>
+              )}
             </div>
           ) : (
             <ul className={s.list}>

@@ -2,13 +2,15 @@ import { Router } from 'express'
 import { addFavorite } from '../tasks/addFavorite.ts'
 import { getFavorites } from '../tasks/getFavorites.ts'
 import { removeFavorite } from '../tasks/removeFavorite.ts'
+import { readToken } from './readToken.ts'
 import { sendBadRequest, sendOutcome } from './send.ts'
 
 export const favoritesRouter = Router()
 
-// Все три маршрута отдают список избранного: сайт показывает то, что прислал сервер.
-favoritesRouter.get('/favorites', (_req, res) => {
-  sendOutcome(res, getFavorites())
+// Все три маршрута отдают список избранного того, кто зовёт: сайт показывает то, что прислал сервер.
+// Без ключа сессии в заголовке — 401: у гостя избранного нет.
+favoritesRouter.get('/favorites', (req, res) => {
+  sendOutcome(res, getFavorites(readToken(req)))
 })
 
 favoritesRouter.put('/favorites/:id', async (req, res) => {
@@ -18,7 +20,7 @@ favoritesRouter.put('/favorites/:id', async (req, res) => {
     return
   }
 
-  sendOutcome(res, await addFavorite(id))
+  sendOutcome(res, await addFavorite(readToken(req), id))
 })
 
 favoritesRouter.delete('/favorites/:id', (req, res) => {
@@ -28,7 +30,7 @@ favoritesRouter.delete('/favorites/:id', (req, res) => {
     return
   }
 
-  sendOutcome(res, removeFavorite(id))
+  sendOutcome(res, removeFavorite(readToken(req), id))
 })
 
 function toShowId(value: string): number | null {

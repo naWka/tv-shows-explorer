@@ -30,5 +30,9 @@ type CreateOrderOutcome = { status: 'success' } | { status: 'cancelled' } | { st
   case differently.
 - **A task without a server request returns nothing** (clear a list, show a message). *Why:* it has
   nothing to fail at, and an outcome nobody reads is noise.
+- **The server no longer knows the caller (`unauthorized`) — the task that got it forgets the session
+  itself** (calls the shared `forgetSession`) and returns the reason; the presenter picks the text.
+  Nobody catches it for everyone. *Why:* the whole path is visible in the task, and the transport stays
+  without behaviour.
 - **A task's name is a verb:** `createOrder` — "place an order". Inside it may be split into parts and
   call other tasks; from outside it is one call.

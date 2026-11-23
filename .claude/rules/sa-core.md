@@ -35,7 +35,7 @@ edits to yours.
 | **Presenter** | Calls tasks on events, reads stores, derives data, holds action and UI state, drives the environment | Network calls, server types, imports from the API |
 | **Task** | One use case end to end: calls API methods, puts data several places need into stores, returns an outcome (with data only its caller needs) | React, network calls, the server's response format, UI texts, errors thrown outward |
 | **API method** | One request: calls the transport, returns typed data, throws an API error with a reason | Waiting, retries, an `AbortController` of its own, store writes, texts |
-| **Transport** | How to talk to the server: address, network call, response check | Knowledge of what the response holds |
+| **Transport** | How to talk to the server: address, network call, who is calling, response check | Knowledge of what the response holds; imports of stores |
 | **Store** | Holds source data that several places need: fields and setters | Logic; imports of tasks, the API or other stores; derived data; loading flags |
 
 - **Presenter and task know nothing extra about each other:** the presenter does not know how the
@@ -47,6 +47,7 @@ edits to yours.
 ## Where things live
 
 ```
+app/                  the root: screens by address, its presenter runs the startup tasks
 ui-kit/               atoms
 components/           components needed by two or more screens
 screens/<name>/

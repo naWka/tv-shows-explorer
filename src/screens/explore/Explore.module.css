@@ -11,15 +11,22 @@
   padding: var(--space-6) var(--page-gutter);
 }
 
+/* Широкий экран: бренд, поиск с избранным и кто смотрит — одной строкой. Шапка не выше бренда, и вся высота окна
+   под ней остаётся выдаче. Длинный email обрезается, чтобы поле поиска не сжималось. */
 .header {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: end;
-  gap: var(--space-6);
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: 'brand tools account';
+  align-items: center;
+  gap: var(--space-4) var(--space-6);
 }
+
+.brand { grid-area: brand; }
+.account { grid-area: account; justify-self: end; min-width: 0; max-width: 260px; }
 
 /* Поле поиска и кнопка избранного в одну строку: поле забирает всю свободную ширину. */
 .tools {
+  grid-area: tools;
   display: flex;
   align-items: center;
   gap: var(--space-4);
@@ -43,10 +50,24 @@
   .page { gap: var(--space-4); padding-block: var(--space-4); }
 }
 
+/* Средняя ширина: кто смотрит — справа от бренда, поиск с избранным — строкой под ними. */
 @media (max-width: 860px) {
-  .header { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+  .header {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'brand account'
+      'tools tools';
+    align-items: end;
+    gap: var(--space-4);
+  }
+  .account { max-width: 100%; }
 }
 
 @media (max-width: 560px) {
   .page { --page-gutter: var(--space-4); padding-block: var(--space-5); }
+  .header {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'brand' 'account' 'tools';
+  }
+  .account { justify-self: start; }
 }

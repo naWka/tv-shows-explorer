@@ -1,16 +1,19 @@
 // Что из главного видно без прокрутки. Постер считается по нарисованной картинке, а не по рамке img.
-export function measure() {
+// labels — тексты кнопок шапки, по ним кнопки и находятся: { favorites, logOut }.
+export function measure(labels) {
   const vh = window.innerHeight
   const vw = window.innerWidth
   const inView = (r) => r.top >= 0 && r.left >= 0 && r.bottom <= vh + 0.5 && r.right <= vw + 0.5
   const box = (el) => (el ? el.getBoundingClientRect() : null)
+  const headerButton = (text) => [...document.querySelectorAll('header button')].find((b) => b.textContent.includes(text))
   const pager = box(document.querySelector('main nav'))
   const posters = [...document.querySelectorAll('article img[data-fit="contain"], article img:not([data-fit])')]
   return {
     scrollHeight: document.documentElement.scrollHeight,
     horizontalScroll: document.documentElement.scrollWidth > document.documentElement.clientWidth,
     searchInView: inView(box(document.querySelector('input'))),
-    favoritesInView: inView(box(document.querySelector('header button'))),
+    favoritesInView: inView(box(headerButton(labels.favorites))),
+    logOutInView: inView(box(headerButton(labels.logOut))),
     pager: pager ? { inView: inView(pager), top: Math.round(pager.top) } : 'нет',
     cards: [...document.querySelectorAll('article')].map((card, i) => {
       const img = posters[i]

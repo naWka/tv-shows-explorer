@@ -11,6 +11,10 @@ Loaded because a presenter or a hook is touched. Layers and placement — `sa-co
   and UI state, drives the environment. No network calls, no server types, no imports from the API.
 - **It calls a task and awaits its outcome,** then decides what to do: show an error, stop the loading,
   go to another screen. A text with a substitution, or one chosen by the outcome, is picked here.
+- **App start is an event too: the root's presenter runs the startup tasks** (restore the session) and
+  draws the screens only after them. The entry point only wires modules together (hands the transport
+  its token function) and calls no tasks. *Why:* tasks are called from one kind of place, and the entry
+  point stays assembly, not behaviour that nobody tests.
 - **The environment is the presenter's job:** focus, scrolling, navigation, a pause while typing. A big
   piece of it goes to a hook next to the presenter (`use<Name>.ts`).
 - **Action state (`isLoading`, `error`) and UI state (is a dialog open) are `useState` in the

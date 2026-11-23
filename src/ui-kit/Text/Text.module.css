@@ -99,7 +99,9 @@
   -webkit-box-orient: vertical;
 }
 
-.text[data-lines='1'] { -webkit-line-clamp: 1; }
+/* Одна строка — обычное обрезание: line-clamp ставит многоточие только на переносе, и слово без пробелов (email)
+   резалось бы посреди буквы. */
+.text[data-lines='1'] { display: block; white-space: nowrap; text-overflow: ellipsis; }
 .text[data-lines='2'] { -webkit-line-clamp: 2; }
 .text[data-lines='3'] { -webkit-line-clamp: 3; }
 

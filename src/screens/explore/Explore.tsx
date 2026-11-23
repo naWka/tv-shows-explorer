@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite'
 import { texts } from '@locales/index'
-import { Brand } from './Brand/Brand'
+import { Account } from './Account/Account'
+import { Brand } from '@components/Brand/Brand'
 import { Favorites } from './Favorites/Favorites'
 import { SearchInput } from './SearchInput/SearchInput'
 import { SearchResults } from './SearchResults/SearchResults'
@@ -15,7 +16,12 @@ export const Explore = observer(function Explore() {
   return (
     <div className={s.page}>
       <header className={s.header}>
-        <Brand />
+        <div className={s.brand}>
+          <Brand />
+        </div>
+        <div className={s.account}>
+          <Account />
+        </div>
         <div className={s.tools}>
           <div className={s.search}>
             <SearchInput
